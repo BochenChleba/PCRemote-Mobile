@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00493B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="grey">#C9323232</color>
+    <color name="greyish">#A5A5A5</color>
+    <color name="almostWhite">#E0E0E0</color>
+    <color name="almostWhiteTransparent">#99A5A5A5</color>
+    <color name="menuBackground">#E5111111</color>
+    <color name="orange">@android:color/holo_orange_light</color>
+
+    <color name="snackbarBackround">#C9b71c1c</color>
+</resources>
