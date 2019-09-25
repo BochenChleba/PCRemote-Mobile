@@ -1,4 +1,4 @@
-package com.example.pcremote.ui.power_control
+package com.example.pcremote.ui.page.power_control
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
+import com.example.pcremote.ui.dialog.schedlued_shutdown.ScheduledShutdownDialog
+import com.example.pcremote.ui.dialog.shutdown_now.ShutdownNowDialog
 import kotlinx.android.synthetic.main.fragment_power_control.*
 
 class PowerControlFragment: Fragment() {
 
-    private var viewModel: MainViewModel? = null
+    private lateinit var viewModel: MainViewModel
 
     companion object {
         fun newInstance(): PowerControlFragment {
@@ -28,10 +30,18 @@ class PowerControlFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { viewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let {fragmentActivity ->
+            viewModel = ViewModelProviders.of(fragmentActivity).get(MainViewModel::class.java)
 
-        shutdownNowBtn.setOnClickListener {
-            viewModel?.communicate(Communicator.COMMAND_SHUTDOWN_NOW)
+            shutdownNowBtn?.setOnClickListener {
+                ShutdownNowDialog.newInstance()
+                    .show(fragmentActivity.supportFragmentManager, ShutdownNowDialog.TAG)
+            }
+
+            scheduledShutdownBtn?.setOnClickListener {
+                ScheduledShutdownDialog.newInstance()
+                    .show(fragmentActivity.supportFragmentManager, ScheduledShutdownDialog.TAG)
+            }
         }
     }
 }

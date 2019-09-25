@@ -5,6 +5,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:background="#2276FF03"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -12,19 +15,85 @@
             android:id="@+id/connectionStatusTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/almostWhite"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="2dp"
+            android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="Connection: OK"
-            android:textColor="@android:color/white"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:textSize="19sp"
     />
 
+    <TextView
+            android:id="@+id/ipAddressTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Server IP: 172.168.0.1"
+            android:textColor="@color/almostWhite"
+            android:paddingBottom="6dp"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/connectionStatusTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
+
+    <TextView
+            android:id="@+id/enterIpTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ENTER IP"
+            android:textColor="@android:color/white"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ipAddressTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/autoScanTv"
+    />
+
+    <TextView
+            android:id="@+id/autoScanTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="SCAN"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ipAddressTv"
+            app:layout_constraintStart_toEndOf="@id/enterIpTv"
+            app:layout_constraintEnd_toStartOf="@id/reconnectTv"
+    />
+
+    <TextView
+            android:id="@+id/reconnectTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="RECONNECT"
+            android:textColor="@android:color/white"
+            android:paddingTop="8dp"
+            android:paddingBottom="4dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/ipAddressTv"
+            app:layout_constraintStart_toEndOf="@id/autoScanTv"
+            app:layout_constraintEnd_toEndOf="parent"
+    />
 
     <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/arrowIv"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_drop_down"
             android:layout_marginEnd="8dp"
@@ -32,5 +101,17 @@
             app:layout_constraintTop_toTopOf="@id/connectionStatusTv"
             app:layout_constraintBottom_toBottomOf="@id/connectionStatusTv"
     />
+
+    <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:layout_marginStart="4dp"
+            android:padding="3dp"
+            app:layout_constraintStart_toEndOf="@id/connectionStatusTv"
+            app:layout_constraintTop_toTopOf="@id/connectionStatusTv"
+            app:layout_constraintBottom_toBottomOf="@id/connectionStatusTv"
+            app:layout_constraintDimensionRatio="1:1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

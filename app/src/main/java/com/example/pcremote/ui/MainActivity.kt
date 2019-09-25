@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
-import com.example.pcremote.ViewPagerAdapter
+import com.example.pcremote.adapter.MainViewPagerAdapter
+import com.example.pcremote.ext.hideKeyboard
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
+import java.util.*
 
 class MainActivity : AppCompatActivity(), MainNavigator{
 
@@ -22,6 +24,11 @@ class MainActivity : AppCompatActivity(), MainNavigator{
         initializeViewPager()
     }
 
+    override fun onPause() {
+        super.onPause()
+        applicationContext.hideKeyboard()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.dispose()
@@ -31,8 +38,12 @@ class MainActivity : AppCompatActivity(), MainNavigator{
         toast(text)
     }
 
+    override fun showToast(resourceId: Int) {
+        toast(getString(resourceId))
+    }
+
     private fun initializeViewPager() {
-        viewPager.adapter = ViewPagerAdapter(supportFragmentManager)
+        viewPager.adapter = MainViewPagerAdapter(supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 

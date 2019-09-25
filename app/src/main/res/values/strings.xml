@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">PCRemote</string>
+    <string name="connectionStatusConnected">Connection: OK</string>
+    <string name="connectionStatusConnecting">Connecting…</string>
+    <string name="connectionStatusDisconnected">Connection: Disconnected</string>
+
+    <string name="tab_name_shutdown_countdown">Countdown</string>
+    <string name="tab_name_shutdown_specified_time">Specified Time</string>
+    <string name="power_control_scheduled_shutdown_btn">scheduled shutdown</string>
+    <string name="power_control_shutdown_btn">shutdown now</string>
+    <string name="power_control_title">Power Control</string>
+    <string name="shutdown_default_time">00</string>
+    <string name="shutdown_countdown_prompt">Shutdown in:</string>
+    <string name="shutdown_countdown_hours">hours</string>
+    <string name="shutdown_countdown_minutes">minutes</string>
+    <string name="shutdown_countdown_seconds">seconds</string>
+    <string name="shutdown_specified_prompt">Shutdown at:</string>
+    <string name="shutdown_scheduled">Shutdown scheduled</string>
+    <string name="toast_no_connection">Not connected to PC</string>
+    <string name="toast_invalid_time">Invalid time. Enter time between 00:00:00 and 23:59:59.</string>
+    <string name="colon">:</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
 </resources>

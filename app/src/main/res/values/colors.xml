@@ -6,10 +6,15 @@
 
     <color name="grey">#C9323232</color>
     <color name="greyish">#A5A5A5</color>
-    <color name="almostWhite">#E0E0E0</color>
+    <color name="almostWhite">#E9E9E9</color>
     <color name="almostWhiteTransparent">#99A5A5A5</color>
     <color name="menuBackground">#E5111111</color>
     <color name="orange">@android:color/holo_orange_light</color>
 
     <color name="snackbarBackround">#C9b71c1c</color>
+
+    <color name="connectionOkBackground">#2276FF03</color>
+    <color name="connectingBackground">#DDF9A825</color>
+    <color name="disconnectedBackground">#c62828</color>
+    <color name="dialogBackground">#37474F</color>
 </resources>
