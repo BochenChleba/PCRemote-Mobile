@@ -19,6 +19,7 @@ class ConnectionStatusFragment: Fragment() {
 
     private var viewModel: MainViewModel? = null
     private var expanded = false
+    private var pingingThread: PingingThread? = null
 
     companion object {
         fun newInstance(): ConnectionStatusFragment {
@@ -32,10 +33,25 @@ class ConnectionStatusFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.let { viewModel = ViewModelProviders.of(it).get(MainViewModel::class.java) }
+        activity?.let { actv ->
+            viewModel = ViewModelProviders.of(actv).get(MainViewModel::class.java)
+        }
 
         observeConnectionStatus()
         setOnClicks()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel?.let { vm ->
+            pingingThread = PingingThread(vm).apply { run() }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pingingThread?.stopPinging()
+        pingingThread = null
     }
 
     private fun observeConnectionStatus() {
@@ -46,20 +62,17 @@ class ConnectionStatusFragment: Fragment() {
 
             when (status) {
                 ConnectionStatus.CONNECTED -> {
-                    toast("Connected with PC")
                     collapse()
                     progressBar.gone()
                     connectionStatusTv.text = getString(R.string.connectionStatusConnected)
                     rootLayout.setBackgroundColor(context!!.getColor(R.color.connectionOkBackground))
                 }
                 ConnectionStatus.CONNECTING -> {
-                    toast("Connecting...")
                     progressBar.show()
                     connectionStatusTv.text = getString(R.string.connectionStatusConnecting)
                     rootLayout.setBackgroundColor(context!!.getColor(R.color.connectingBackground))
                 }
                 ConnectionStatus.DISCONNECTED -> {
-                    toast("Cannot connect to PC")
                     expand()
                     progressBar.gone()
                     connectionStatusTv.text = getString(R.string.connectionStatusDisconnected)

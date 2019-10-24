@@ -16,8 +16,11 @@
     <string name="shutdown_countdown_seconds">seconds</string>
     <string name="shutdown_specified_prompt">Shutdown at:</string>
     <string name="shutdown_scheduled">Shutdown scheduled</string>
+    <string name="shutdown_countdown_message">Remained: %s</string>
     <string name="toast_no_connection">Not connected to PC</string>
     <string name="toast_invalid_time">Invalid time. Enter time between 00:00:00 and 23:59:59.</string>
+    <string name="toast_cannot_complete_command">Cannot complete this request</string>
+    <string name="toast_shutdown_complete">System should be shutting down now</string>
     <string name="colon">:</string>
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>

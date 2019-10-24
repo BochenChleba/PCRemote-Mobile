@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 import java.util.*
 
-class MainActivity : AppCompatActivity(), MainNavigator{
+class MainActivity : AppCompatActivity(), MainNavigator {
 
     private lateinit var viewModel: MainViewModel
 
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity(), MainNavigator{
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.navigator = this
-
+        viewModel.initializePreferencesInstance(this)
         viewModel.initializeCommunicator()
         initializeViewPager()
     }

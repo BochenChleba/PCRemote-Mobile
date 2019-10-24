@@ -14,7 +14,7 @@
     <color name="snackbarBackround">#C9b71c1c</color>
 
     <color name="connectionOkBackground">#2276FF03</color>
-    <color name="connectingBackground">#DDF9A825</color>
-    <color name="disconnectedBackground">#c62828</color>
+    <color name="connectingBackground">#CC008577</color>
+    <color name="disconnectedBackground">#b71c1c</color>
     <color name="dialogBackground">#37474F</color>
 </resources>

@@ -7,13 +7,12 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.pcremote.MiscConstants
+import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.R
-import com.example.pcremote.TimeConstants
+import com.example.pcremote.constants.TimeConstants
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.ext.toIntOrZero
 import com.example.pcremote.singleton.Communicator
-import com.example.pcremote.ui.MainActivity
 import com.example.pcremote.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_shutdown_specified.*
 import org.jetbrains.anko.support.v4.toast
@@ -24,6 +23,7 @@ class ShutdownSpecifiedFragment: Fragment() {
     private lateinit var privateViewModel: ShutdownSpecifiedViewModel
 
     companion object {
+        lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
         lateinit var dismissCallback: ()->Unit
         fun newInstance(): ShutdownSpecifiedFragment {
             return ShutdownSpecifiedFragment()
@@ -83,8 +83,7 @@ class ShutdownSpecifiedFragment: Fragment() {
         }
 
         viewModel.communicate(Communicator.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString()) {
-            toast(getString(R.string.shutdown_scheduled))
-            dismissCallback.invoke()
+            shutdownScheduledCallback.invoke(timeout)
         }
     }
 }
