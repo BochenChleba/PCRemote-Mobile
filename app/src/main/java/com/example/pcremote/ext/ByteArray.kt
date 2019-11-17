@@ -6,7 +6,10 @@ import com.example.pcremote.singleton.Communicator
 import java.nio.charset.Charset
 
 fun ByteArray.readResponse(): List<String> {
-    val splittedResponse = this.toString(Charset.forName(NetworkConstants.COMMUNICATION_CHARSET)).split('&')
+    val splittedResponse = this
+        .toString(Charset.forName(NetworkConstants.COMMUNICATION_CHARSET))
+        .trim('\u0000')
+        .split('&')
     val isSuccessful = splittedResponse.firstOrNull()
     val params = splittedResponse.drop(1)
     if (isSuccessful == null || isSuccessful != Communicator.FEEDBACK_SUCCEED) {

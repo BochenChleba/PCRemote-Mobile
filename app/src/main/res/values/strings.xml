@@ -3,10 +3,11 @@
     <string name="connectionStatusConnected">Connection: OK</string>
     <string name="connectionStatusConnecting">Connecting…</string>
     <string name="connectionStatusDisconnected">Connection: Disconnected</string>
-
+    <string name="connection_status_ip_address">PC IP: %s</string>
     <string name="tab_name_shutdown_countdown">Countdown</string>
     <string name="tab_name_shutdown_specified_time">Specified Time</string>
     <string name="power_control_scheduled_shutdown_btn">scheduled shutdown</string>
+    <string name="power_control_restart_btn">restart</string>
     <string name="power_control_shutdown_btn">shutdown now</string>
     <string name="power_control_title">Power Control</string>
     <string name="shutdown_default_time">00</string>
@@ -24,4 +25,13 @@
     <string name="colon">:</string>
     <string name="cancel">Cancel</string>
     <string name="set">Set</string>
+    <string name="shutdown_now_dialog_title">Shutdown</string>
+    <string name="shutdown_now_dialog_message">System will be shot down immediately. Continue?</string>
+    <string name="restart_dialog_title">Restart</string>
+    <string name="restart_dialog_message">System will be restarted immediately. Continue?</string>
+    <string name="enter_ip_dialog_title">Enter IP</string>
+    <string name="enter_ip_dialog_hint">IP address</string>
+    <string name="enter_ip_dialog_message">Enter IP address of PC. It can be found in command prompt: ipconfig -> IPv4</string>
+    <string name="volume_control_title">Volume Control</string>
+    <string name="volume_control_mute_btn">mute</string>
 </resources>

@@ -4,7 +4,7 @@ import com.example.pcremote.constants.MiscConstants
 
 fun String.toIntOrZero(): Int = this.toIntOrNull() ?: 0
 
-fun List<String>.serialize(): String {
+fun Array<Any>.serialize(): String {
     val output = StringBuilder()
     this.forEachIndexed { index, string ->
         output.append(string)

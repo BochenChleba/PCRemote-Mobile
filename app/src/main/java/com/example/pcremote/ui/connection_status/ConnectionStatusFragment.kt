@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
@@ -12,6 +13,8 @@ import com.example.pcremote.enum.ConnectionStatus
 import com.example.pcremote.ext.gone
 import com.example.pcremote.ext.show
 import com.example.pcremote.ui.MainViewModel
+import com.example.pcremote.ui.dialog.enter_ip.EnterIpDialog
+import com.example.pcremote.util.Preferences
 import kotlinx.android.synthetic.main.fragment_connection_status.*
 import org.jetbrains.anko.support.v4.toast
 
@@ -35,16 +38,20 @@ class ConnectionStatusFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { actv ->
             viewModel = ViewModelProviders.of(actv).get(MainViewModel::class.java)
+            setDialogCallbacks()
+            setOnClicks(actv)
+            ipAddressTv.text = getString(
+                R.string.connection_status_ip_address,
+                Preferences.getInstance(actv).getIpAddress()
+            )
         }
-
         observeConnectionStatus()
-        setOnClicks()
     }
 
     override fun onResume() {
         super.onResume()
         viewModel?.let { vm ->
-            pingingThread = PingingThread(vm).apply { run() }
+           // pingingThread = PingingThread(vm).apply { run() }
         }
     }
 
@@ -83,7 +90,15 @@ class ConnectionStatusFragment: Fragment() {
         })
     }
 
-    private fun setOnClicks() {
+    private fun setDialogCallbacks() {
+        EnterIpDialog.confirmCallback = { ipAddress: String ->
+            viewModel?.prefs?.setIpAddress(ipAddress)
+            viewModel?.reinitializeCommunicator()
+            ipAddressTv.text = ipAddress
+        }
+    }
+
+    private fun setOnClicks(activity: FragmentActivity) {
         rootLayout.setOnClickListener {
             if (expanded) {
                 collapse()
@@ -92,15 +107,16 @@ class ConnectionStatusFragment: Fragment() {
             }
         }
 
-        enterIpTv.setOnClickListener {
-            toast("kurwa")
+        enterIpTv?.setOnClickListener {
+            EnterIpDialog.newInstance()
+                .show(activity.supportFragmentManager, EnterIpDialog.TAG)
         }
 
-        autoScanTv.setOnClickListener {
+        autoScanTv?.setOnClickListener {
             toast("jeszcze nie ma")
         }
 
-        reconnectTv.setOnClickListener {
+        reconnectTv?.setOnClickListener {
             viewModel?.reinitializeCommunicator()
         }
     }

@@ -82,8 +82,8 @@ class ShutdownSpecifiedFragment: Fragment() {
             return
         }
 
-        viewModel.communicate(Communicator.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString()) {
+        viewModel.communicate(Communicator.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString(), onSuccess = {
             shutdownScheduledCallback.invoke(timeout)
-        }
+        })
     }
 }

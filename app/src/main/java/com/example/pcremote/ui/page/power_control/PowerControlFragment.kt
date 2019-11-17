@@ -1,26 +1,28 @@
 package com.example.pcremote.ui.page.power_control
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
+import com.example.pcremote.enum.ConnectionStatus
 import com.example.pcremote.ext.gone
-import com.example.pcremote.ext.hide
 import com.example.pcremote.ext.show
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
+import com.example.pcremote.ui.base.BaseFragment
+import com.example.pcremote.ui.dialog.restart.RestartDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.ScheduledShutdownDialog
 import com.example.pcremote.ui.dialog.shutdown_now.ShutdownNowDialog
+import com.example.pcremote.util.Preferences
 import kotlinx.android.synthetic.main.fragment_power_control.*
 import org.jetbrains.anko.support.v4.toast
 
-class PowerControlFragment: Fragment(), PowerControlNavigator {
+class PowerControlFragment: BaseFragment(), PowerControlNavigator {
 
-    private lateinit var sharedViewModel: MainViewModel
     private lateinit var viewModel: PowerControlViewModel
 
     companion object {
@@ -36,29 +38,14 @@ class PowerControlFragment: Fragment(), PowerControlNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
-            sharedViewModel = ViewModelProviders.of(fragmentActivity).get(MainViewModel::class.java)
             viewModel = ViewModelProviders.of(fragmentActivity).get(PowerControlViewModel::class.java)
             viewModel.navigator = this
-            viewModel.prefs = sharedViewModel.prefs
+            viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(fragmentActivity)
 
-            ScheduledShutdownDialog.shutdownScheduledCallback = { viewModel.checkScheduledShutdown() }
-
-            shutdownNowBtn?.setOnClickListener {
-                ShutdownNowDialog.newInstance()
-                    .show(fragmentActivity.supportFragmentManager, ShutdownNowDialog.TAG)
+            ScheduledShutdownDialog.shutdownScheduledCallback = {
+                viewModel.checkScheduledShutdown()
             }
-
-            scheduledShutdownBtn?.setOnClickListener {
-                ScheduledShutdownDialog.newInstance()
-                    .show(fragmentActivity.supportFragmentManager, ScheduledShutdownDialog.TAG)
-            }
-
-            abortShutdownTv.setOnClickListener {
-                sharedViewModel.communicate(Communicator.COMMAND_ABORT_SHUTDOWN) {
-                    viewModel.abortShutdown()
-                    toast("Shutdown aborted")
-                }
-            }
+            setClickListeners(fragmentActivity)
         }
     }
 
@@ -82,5 +69,36 @@ class PowerControlFragment: Fragment(), PowerControlNavigator {
 
     override fun toastOnShutdown() {
         toast(R.string.toast_shutdown_complete)
+    }
+
+    private fun setClickListeners(activity: FragmentActivity) {
+        shutdownNowBtn?.setOnClickListener {
+            checkConnectionStatus() ?: return@setOnClickListener
+            ShutdownNowDialog.newInstance()
+                .show(activity.supportFragmentManager, ShutdownNowDialog.TAG)
+        }
+
+        scheduledShutdownBtn?.setOnClickListener {
+            checkConnectionStatus() ?: return@setOnClickListener
+            ScheduledShutdownDialog.newInstance()
+                .show(activity.supportFragmentManager, ScheduledShutdownDialog.TAG)
+        }
+
+        abortShutdownTv?.setOnClickListener {
+            checkConnectionStatus() ?: return@setOnClickListener
+            sharedViewModel?.communicate(
+                command = Communicator.COMMAND_ABORT_SHUTDOWN,
+                onSuccess = {
+                    viewModel.abortShutdown()
+                    toast("Shutdown aborted")
+                }
+            )
+        }
+
+        restartBtn?.setOnClickListener {
+            checkConnectionStatus() ?: return@setOnClickListener
+            RestartDialog.newInstance()
+                .show(activity.supportFragmentManager, RestartDialog.TAG)
+        }
     }
 }

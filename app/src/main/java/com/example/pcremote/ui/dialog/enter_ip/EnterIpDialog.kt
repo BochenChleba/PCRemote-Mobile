@@ -1,4 +1,4 @@
-package com.example.pcremote.ui.dialog.schedlued_shutdown
+package com.example.pcremote.ui.dialog.enter_ip
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -16,31 +16,32 @@ import com.example.pcremote.ui.MainViewModel
 import com.example.pcremote.ui.base.BaseDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.countdown.ShutdownCountdownFragment
 import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedFragment
+import com.example.pcremote.util.Preferences
+import kotlinx.android.synthetic.main.dialog_enter_ip.*
 import kotlinx.android.synthetic.main.dialog_scheduled_shutdown.*
 import org.jetbrains.anko.support.v4.toast
 
-class ScheduledShutdownDialog : BaseDialog() {
+class EnterIpDialog : BaseDialog() {
 
     companion object {
-        const val TAG = "scheduled shutdown"
+        const val TAG = "enter IP"
 
-        lateinit var shutdownScheduledCallback: ()->Unit
+        lateinit var confirmCallback: (String)->Unit
 
-        fun newInstance(): ScheduledShutdownDialog {
-            return ScheduledShutdownDialog()
+        fun newInstance(): EnterIpDialog {
+            return EnterIpDialog()
         }
     }
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.dialog_scheduled_shutdown, container)
+            = inflater.inflate(R.layout.dialog_enter_ip, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        context?.let { ctx ->
-            viewPager?.adapter = ShutdownViewPagerAdapter(childFragmentManager, ctx)
-            tabLayout?.setupWithViewPager(viewPager)
-            ctx.showKeyboard()
-            setCallbacks()
+        activity?.let { fragmentActivity ->
+            ipEt?.setText(Preferences.getInstance(fragmentActivity).getIpAddress())
+            setOnClickListeners()
         }
     }
 
@@ -49,20 +50,14 @@ class ScheduledShutdownDialog : BaseDialog() {
         context?.hideKeyboard()
     }
 
-    private fun setCallbacks() {
-        ShutdownCountdownFragment.dismissCallback = { dismiss() }
-        ShutdownCountdownFragment.shutdownScheduledCallback = { timeout -> onShutdownScheduled(timeout) }
-        ShutdownSpecifiedFragment.dismissCallback = { dismiss() }
-        ShutdownSpecifiedFragment.shutdownScheduledCallback = { timeout -> onShutdownScheduled(timeout) }
-    }
-
-    private fun onShutdownScheduled(timeout: Int) {
-        sharedViewModel?.prefs?.setShutdownTime(
-            System.currentTimeMillis() + timeout * TimeConstants.MILLIS_IN_SECOND
-        )
-        toast(getString(R.string.shutdown_scheduled))
-        shutdownScheduledCallback.invoke()
-        dismiss()
+    private fun setOnClickListeners() {
+        declineTv?.setOnClickListener {
+            dismiss()
+        }
+        confirmTv?.setOnClickListener {
+            confirmCallback.invoke(ipEt.text.toString())
+            dismiss()
+        }
     }
 
 }

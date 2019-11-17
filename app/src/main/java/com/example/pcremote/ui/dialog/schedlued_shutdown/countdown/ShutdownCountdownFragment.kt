@@ -13,7 +13,6 @@ import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
 import kotlinx.android.synthetic.main.fragment_shutdown_countdown.*
-import org.jetbrains.anko.support.v4.toast
 
 class ShutdownCountdownFragment: Fragment() {
 
@@ -74,8 +73,15 @@ class ShutdownCountdownFragment: Fragment() {
             minutesEt.text.toString(),
             secondsEt.text.toString()
         )
-        viewModel.communicate(Communicator.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString()) {
-            shutdownScheduledCallback.invoke(timeout)
+        val startTime = System.currentTimeMillis()
+        viewModel.communicate(
+            Communicator.COMMAND_SCHEDULE_SHUTDOWN,
+            timeout.toString(),
+            onSuccess = {
+                val actualTimeout = timeout - ((System.currentTimeMillis() - startTime) / 1000)
+                shutdownScheduledCallback.invoke(actualTimeout.toInt())
+            }) {
+
         }
     }
 }

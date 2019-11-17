@@ -13,7 +13,7 @@ class PingingThread(private val viewModel: MainViewModel): Thread() {
     private var runnable: Runnable? = null
 
     companion object {
-        private const val PING_INTERVAL_MS = 150000L
+        private const val PING_INTERVAL_MS = 15000L
     }
 
     fun stopPinging() {
