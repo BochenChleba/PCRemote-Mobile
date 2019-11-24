@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.R
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
@@ -75,7 +76,7 @@ class ShutdownCountdownFragment: Fragment() {
         )
         val startTime = System.currentTimeMillis()
         viewModel.communicate(
-            Communicator.COMMAND_SCHEDULE_SHUTDOWN,
+            CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN,
             timeout.toString(),
             onSuccess = {
                 val actualTimeout = timeout - ((System.currentTimeMillis() - startTime) / 1000)

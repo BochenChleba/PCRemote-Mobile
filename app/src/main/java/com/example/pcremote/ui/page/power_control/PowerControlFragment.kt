@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
-import com.example.pcremote.enum.ConnectionStatus
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.ext.gone
 import com.example.pcremote.ext.show
-import com.example.pcremote.singleton.Communicator
-import com.example.pcremote.ui.MainViewModel
 import com.example.pcremote.ui.base.BaseFragment
 import com.example.pcremote.ui.dialog.restart.RestartDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.ScheduledShutdownDialog
@@ -87,7 +84,7 @@ class PowerControlFragment: BaseFragment(), PowerControlNavigator {
         abortShutdownTv?.setOnClickListener {
             checkConnectionStatus() ?: return@setOnClickListener
             sharedViewModel?.communicate(
-                command = Communicator.COMMAND_ABORT_SHUTDOWN,
+                command = CommunicatorConstants.COMMAND_ABORT_SHUTDOWN,
                 onSuccess = {
                     viewModel.abortShutdown()
                     toast("Shutdown aborted")

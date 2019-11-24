@@ -1,7 +1,7 @@
 package com.example.pcremote.ui.dialog.shutdown_now
 
 import com.example.pcremote.R
-import com.example.pcremote.singleton.Communicator
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.ui.base.SimpleDialog
 
 class ShutdownNowDialog : SimpleDialog() {
@@ -15,7 +15,7 @@ class ShutdownNowDialog : SimpleDialog() {
     }
 
     override val confirmCallback = {
-        sharedViewModel?.communicate(Communicator.COMMAND_SHUTDOWN_NOW)
+        sharedViewModel?.communicate(CommunicatorConstants.COMMAND_SHUTDOWN_NOW)
     }
 
     override val titleStringRes = R.string.shutdown_now_dialog_title

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pcremote.constants.NetworkConstants
 import com.example.pcremote.R
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.enum.ConnectionStatus
 import com.example.pcremote.ext.changeValueIfDifferent
@@ -84,36 +85,37 @@ class MainViewModel: ViewModel() {
                     onFailure?.invoke()
                 })
                 .let { disposable ->  compositeDisposable.add(disposable) }
-        }
-
-            ?: reinitializeCommunicator()
+        } ?: reinitializeCommunicator()
     }
 
     private fun callCommand(command: String, params: Array<Any>): Single<List<String>>? {
         val comm = communicator ?: return null
         return when (command) {
-            Communicator.COMMAND_PING -> comm.ping()
-            Communicator.COMMAND_SHUTDOWN_NOW -> Single.just(emptyList())// todo comm.shutdownNow()
-            Communicator.COMMAND_SCHEDULE_SHUTDOWN -> comm.scheduleShutdown(params)
-            Communicator.COMMAND_ABORT_SHUTDOWN -> comm.abortShutdown()
-            Communicator.COMMAND_RESTART -> comm.restart()
-            Communicator.COMMAND_SET_VOLUME -> comm.setVolume(params)
-            Communicator.COMMAND_GET_VOLUME -> comm.getVolume()
+            CommunicatorConstants.COMMAND_PING -> comm.ping()
+            CommunicatorConstants.COMMAND_SHUTDOWN_NOW -> Single.just(emptyList())// todo comm.shutdownNow()
+            CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN -> comm.scheduleShutdown(params)
+            CommunicatorConstants.COMMAND_ABORT_SHUTDOWN -> comm.abortShutdown()
+            CommunicatorConstants.COMMAND_RESTART -> comm.restart()
+            CommunicatorConstants.COMMAND_SET_VOLUME -> comm.setVolume(params)
+            CommunicatorConstants.COMMAND_GET_VOLUME -> comm.getVolume()
+            CommunicatorConstants.COMMAND_MUTE -> comm.mute()
+            CommunicatorConstants.COMMAND_UNMUTE -> comm.unmute()
             else -> Single.just(emptyList())
         }
     }
 
     private fun handleCommunicationFailure(command: String, ex: Throwable) {
         Log.e(NetworkConstants.LOG_TAG, ex.toString())
-        if (command == Communicator.COMMAND_PING) { return }
-   //     navigator.showToast(R.string.toast_cannot_complete_command)
+        if (command == CommunicatorConstants.COMMAND_PING) {
+            return
+        }
         connectionStatus.changeValueIfDifferent(ConnectionStatus.CONNECTING)
 
         communicate(
-            Communicator.COMMAND_PING,
+            CommunicatorConstants.COMMAND_PING,
             onSuccess = { response ->
                 response.firstOrNull()?.let { msg ->
-                    if (msg == Communicator.FEEDBACK_PONG) {
+                    if (msg == CommunicatorConstants.FEEDBACK_PONG) {
                         connectionStatus.changeValueIfDifferent(ConnectionStatus.CONNECTED)
                     } else {
                         connectionStatus.changeValueIfDifferent(ConnectionStatus.DISCONNECTED)

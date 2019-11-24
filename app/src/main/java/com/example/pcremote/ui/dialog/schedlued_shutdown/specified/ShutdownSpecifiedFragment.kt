@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.R
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.TimeConstants
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.ext.toIntOrZero
@@ -82,7 +83,7 @@ class ShutdownSpecifiedFragment: Fragment() {
             return
         }
 
-        viewModel.communicate(Communicator.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString(), onSuccess = {
+        viewModel.communicate(CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString(), onSuccess = {
             shutdownScheduledCallback.invoke(timeout)
         })
     }

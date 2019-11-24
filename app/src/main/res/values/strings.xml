@@ -34,4 +34,5 @@
     <string name="enter_ip_dialog_message">Enter IP address of PC. It can be found in command prompt: ipconfig -> IPv4</string>
     <string name="volume_control_title">Volume Control</string>
     <string name="volume_control_mute_btn">mute</string>
+    <string name="volume_control_unmute_btn">unmute</string>
 </resources>

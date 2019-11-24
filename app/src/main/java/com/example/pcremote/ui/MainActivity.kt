@@ -11,8 +11,6 @@ import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainNavigator {
 
-    // todo test enabling/disabling seekbar on fragment resume
-    // todo mute
     // todo divide scheduled shutdown to shutdown at and shutdown in
 
     private lateinit var viewModel: MainViewModel

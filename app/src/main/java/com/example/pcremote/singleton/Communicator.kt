@@ -1,5 +1,6 @@
 package com.example.pcremote.singleton
 
+import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.NetworkConstants
 import com.example.pcremote.exception.UnsuccessfulResponseException
 import com.example.pcremote.ext.isAwaitingParamsResponse
@@ -26,16 +27,7 @@ class Communicator(ipAddress: String) {
         const val DATA_BUFF_SIZE = 64
         const val SOCKET_TIMEOUT = 2500
 
-        const val COMMAND_PING = "0"
-        const val COMMAND_SHUTDOWN_NOW = "1"
-        const val COMMAND_SCHEDULE_SHUTDOWN = "2"
-        const val COMMAND_ABORT_SHUTDOWN = "3"
-        const val COMMAND_RESTART = "4"
-        const val COMMAND_SET_VOLUME = "5"
-        const val COMMAND_GET_VOLUME = "6"
-        const val FEEDBACK_AWAITING_PARAMS = "ready"
-        const val FEEDBACK_SUCCEED = "ok"
-        const val FEEDBACK_PONG = "pong"
+
 
         private var instance: Communicator? = null
 
@@ -61,21 +53,32 @@ class Communicator(ipAddress: String) {
         }
     }
 
-    fun ping() = sendCommand(COMMAND_PING)
+    fun ping()
+            = sendCommand(CommunicatorConstants.COMMAND_PING)
 
-    fun shutdownNow(): Single<List<String>> = sendCommand(COMMAND_SHUTDOWN_NOW)
+    fun shutdownNow()
+            = sendCommand(CommunicatorConstants.COMMAND_SHUTDOWN_NOW)
 
-    fun scheduleShutdown(params: Array<Any>): Single<List<String>>
-            = sendCommand(COMMAND_SCHEDULE_SHUTDOWN, params)
+    fun scheduleShutdown(params: Array<Any>)
+            = sendCommand(CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN, params)
 
-    fun abortShutdown() = sendCommand(COMMAND_ABORT_SHUTDOWN)
+    fun abortShutdown()
+            = sendCommand(CommunicatorConstants.COMMAND_ABORT_SHUTDOWN)
 
-    fun restart() = sendCommand(COMMAND_RESTART)
+    fun restart()
+            = sendCommand(CommunicatorConstants.COMMAND_RESTART)
 
-    fun setVolume(params: Array<Any>): Single<List<String>>
-            = sendCommand(COMMAND_SET_VOLUME, params)
+    fun setVolume(params: Array<Any>)
+            = sendCommand(CommunicatorConstants.COMMAND_SET_VOLUME, params)
 
-    fun getVolume(): Single<List<String>> = sendCommand(COMMAND_GET_VOLUME)
+    fun getVolume()
+            = sendCommand(CommunicatorConstants.COMMAND_GET_VOLUME)
+
+    fun mute()
+            = sendCommand(CommunicatorConstants.COMMAND_MUTE)
+
+    fun unmute()
+            = sendCommand(CommunicatorConstants.COMMAND_UNMUTE)
 
     private fun sendCommand(command: String): Single<List<String>> {
         return Single.fromCallable {
