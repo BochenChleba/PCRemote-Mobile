@@ -11,7 +11,8 @@ import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainNavigator {
 
-    // todo divide scheduled shutdown to shutdown at and shutdown in
+    // custom touchpad on long click
+    // touchpad communication
 
     private lateinit var viewModel: MainViewModel
 

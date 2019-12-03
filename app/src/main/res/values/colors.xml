@@ -17,4 +17,5 @@
     <color name="connectingBackground">#CC008577</color>
     <color name="disconnectedBackground">#b71c1c</color>
     <color name="dialogBackground">#37474F</color>
+    <color name="touchpadBackground">#004D40</color>
 </resources>

@@ -35,4 +35,5 @@
     <string name="volume_control_title">Volume Control</string>
     <string name="volume_control_mute_btn">mute</string>
     <string name="volume_control_unmute_btn">unmute</string>
+    <string name="touchpad_title">Touch pad</string>
 </resources>
