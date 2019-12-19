@@ -58,7 +58,6 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
 
     override fun onResume() {
         super.onResume()
-        getCurrentVolume()
         observeConnectionStatus()
     }
 

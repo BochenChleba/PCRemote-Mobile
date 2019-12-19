@@ -12,9 +12,22 @@ class MainViewPagerAdapter(fragmentManager: FragmentManager)
     private val fragments = listOf(
         TouchpadFragment.newInstance(),
         PowerControlFragment.newInstance(),
+        VolumeControlFragment.newInstance(),
+        TouchpadFragment.newInstance(),
+        PowerControlFragment.newInstance(),
         VolumeControlFragment.newInstance()
+    )
+
+    private val titles = listOf(
+        "Touch Pad",
+        "Power",
+        "Volume",
+        "Touch Pad",
+        "Power",
+        "Volume"
     )
 
     override fun getItem(position: Int) = fragments[position]
     override fun getCount() = fragments.size
+    override fun getPageTitle(position: Int) = titles[position]
 }

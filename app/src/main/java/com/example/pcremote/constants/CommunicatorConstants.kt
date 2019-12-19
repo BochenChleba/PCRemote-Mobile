@@ -10,6 +10,9 @@ object CommunicatorConstants {
     const val COMMAND_GET_VOLUME = "6"
     const val COMMAND_MUTE = "7"
     const val COMMAND_UNMUTE = "8"
+    const val COMMAND_MOUSE_MOVE = "9"
+    const val COMMAND_MOUSE_LEFT = "10"
+    const val COMMAND_MOUSE_RIGHT = "11"
 
     const val FEEDBACK_AWAITING_PARAMS = "ready"
     const val FEEDBACK_SUCCEED = "ok"

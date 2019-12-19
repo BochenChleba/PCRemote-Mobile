@@ -26,13 +26,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
     />
 
-    <com.google.android.material.tabs.TabLayout
+    <com.example.pcremote.util.CustomizableTabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@drawable/tab_selector"
-            app:tabGravity="center"
+            app:tabIconTint="@drawable/tab_selector"
+            app:tabGravity="fill"
             app:tabIndicatorHeight="0dp"
+            app:tabIndicatorColor="@color/orange"
+            app:tabTextColor="@color/greyish"
+            app:tabRippleColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/orange"
+            app:tabPadding="0dp"
+            app:tabMode="scrollable"
             app:layout_constraintBottom_toBottomOf="parent"
     />
 

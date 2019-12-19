@@ -26,9 +26,6 @@ class Communicator(ipAddress: String) {
     companion object {
         const val DATA_BUFF_SIZE = 64
         const val SOCKET_TIMEOUT = 2500
-
-
-
         private var instance: Communicator? = null
 
         fun getInstanceAsync(ipAddress: String): Single<Communicator> {
@@ -53,56 +50,22 @@ class Communicator(ipAddress: String) {
         }
     }
 
-    fun ping()
-            = sendCommand(CommunicatorConstants.COMMAND_PING)
-
-    fun shutdownNow()
-            = sendCommand(CommunicatorConstants.COMMAND_SHUTDOWN_NOW)
-
-    fun scheduleShutdown(params: Array<Any>)
-            = sendCommand(CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN, params)
-
-    fun abortShutdown()
-            = sendCommand(CommunicatorConstants.COMMAND_ABORT_SHUTDOWN)
-
-    fun restart()
-            = sendCommand(CommunicatorConstants.COMMAND_RESTART)
-
-    fun setVolume(params: Array<Any>)
-            = sendCommand(CommunicatorConstants.COMMAND_SET_VOLUME, params)
-
-    fun getVolume()
-            = sendCommand(CommunicatorConstants.COMMAND_GET_VOLUME)
-
-    fun mute()
-            = sendCommand(CommunicatorConstants.COMMAND_MUTE)
-
-    fun unmute()
-            = sendCommand(CommunicatorConstants.COMMAND_UNMUTE)
-
-    private fun sendCommand(command: String): Single<List<String>> {
-        return Single.fromCallable {
-            val dataBuff = ByteArray(DATA_BUFF_SIZE)
-            outputStream.write(command.toByteArray())
-            inputStream.read(dataBuff)
-            dataBuff.readResponse()
-        }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    private fun sendCommand(command: String, params: Array<Any>): Single<List<String>> {
+    fun sendCommand(command: String, params: Array<Any>): Single<List<String>> {
         return Single.fromCallable {
             val dataBuff = ByteArray(DATA_BUFF_SIZE)
             val secondaryBuff = ByteArray(DATA_BUFF_SIZE)
             outputStream.write(command.toByteArray())
             inputStream.read(dataBuff)
-            if (!dataBuff.isAwaitingParamsResponse()) {
-                throw UnsuccessfulResponseException()
+            if (params.isEmpty()) {
+                dataBuff.readResponse()
+            } else {
+                if (!dataBuff.isAwaitingParamsResponse()) {
+                    throw UnsuccessfulResponseException()
+                }
+                outputStream.write(params.serialize().toByteArray())
+                inputStream.read(secondaryBuff)
+                secondaryBuff.readResponse()
             }
-            outputStream.write(params.serialize().toByteArray())
-            inputStream.read(secondaryBuff)
-            secondaryBuff.readResponse()
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())

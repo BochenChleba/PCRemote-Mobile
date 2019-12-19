@@ -70,7 +70,7 @@ class MainViewModel: ViewModel() {
             return
         }
 
-        callCommand(command, arrayOf(*params))?.let { commandObservable ->
+        communicator?.sendCommand(command, arrayOf(*params))?.let { commandObservable ->
             commandObservable
                 .doOnSubscribe {
                     communicationInProgress = true
@@ -84,24 +84,10 @@ class MainViewModel: ViewModel() {
                     handleCommunicationFailure(command, ex)
                     onFailure?.invoke()
                 })
-                .let { disposable ->  compositeDisposable.add(disposable) }
+                .let { disposable ->
+                    compositeDisposable.add(disposable)
+                }
         } ?: reinitializeCommunicator()
-    }
-
-    private fun callCommand(command: String, params: Array<Any>): Single<List<String>>? {
-        val comm = communicator ?: return null
-        return when (command) {
-            CommunicatorConstants.COMMAND_PING -> comm.ping()
-            CommunicatorConstants.COMMAND_SHUTDOWN_NOW -> Single.just(emptyList())// todo comm.shutdownNow()
-            CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN -> comm.scheduleShutdown(params)
-            CommunicatorConstants.COMMAND_ABORT_SHUTDOWN -> comm.abortShutdown()
-            CommunicatorConstants.COMMAND_RESTART -> comm.restart()
-            CommunicatorConstants.COMMAND_SET_VOLUME -> comm.setVolume(params)
-            CommunicatorConstants.COMMAND_GET_VOLUME -> comm.getVolume()
-            CommunicatorConstants.COMMAND_MUTE -> comm.mute()
-            CommunicatorConstants.COMMAND_UNMUTE -> comm.unmute()
-            else -> Single.just(emptyList())
-        }
     }
 
     private fun handleCommunicationFailure(command: String, ex: Throwable) {
