@@ -10,7 +10,7 @@ class TouchpadView(context: Context, attributeSet: AttributeSet)
     : View(context, attributeSet) {
 
     companion object {
-        private const val DELAY = 20
+        private const val DELAY = 140
         private const val UNSET_FLOAT = -1f
         private const val LONG_CLICK_TIME = 500L
     }

@@ -50,7 +50,7 @@ class Communicator(ipAddress: String) {
         }
     }
 
-    fun sendCommand(command: String, params: Array<Any>): Single<List<String>> {
+    fun sendCommand(command: String, vararg params: Any): Single<List<String>> {
         return Single.fromCallable {
             val dataBuff = ByteArray(DATA_BUFF_SIZE)
             val secondaryBuff = ByteArray(DATA_BUFF_SIZE)
@@ -62,7 +62,7 @@ class Communicator(ipAddress: String) {
                 if (!dataBuff.isAwaitingParamsResponse()) {
                     throw UnsuccessfulResponseException()
                 }
-                outputStream.write(params.serialize().toByteArray())
+                outputStream.write(arrayOf(*params).serialize().toByteArray())
                 inputStream.read(secondaryBuff)
                 secondaryBuff.readResponse()
             }

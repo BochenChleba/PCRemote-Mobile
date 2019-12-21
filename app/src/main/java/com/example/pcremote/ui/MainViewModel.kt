@@ -65,12 +65,12 @@ class MainViewModel: ViewModel() {
                     onFailure: (()->Unit)? = null) {
         if (communicationInProgress) {
             handler.postDelayed({
-                communicate(command, params, onSuccess = onSuccess, onFailure = onFailure)
+                communicate(command, *params, onSuccess = onSuccess, onFailure = onFailure)
             }, MiscConstants.COMMUNICATION_RETRY_DELAY)
             return
         }
 
-        communicator?.sendCommand(command, arrayOf(*params))?.let { commandObservable ->
+        communicator?.sendCommand(command, *params)?.let { commandObservable ->
             commandObservable
                 .doOnSubscribe {
                     communicationInProgress = true
