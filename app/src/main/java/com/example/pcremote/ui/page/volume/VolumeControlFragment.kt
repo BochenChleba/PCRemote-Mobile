@@ -10,6 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.constants.CommunicatorConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.enum.ConnectionStatus
 import com.example.pcremote.ext.hide
 import com.example.pcremote.ext.show
@@ -47,10 +49,9 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 checkConnectionStatus() ?: return
-                val progress = seekBar?.progress ?: 50
+                val progress = (seekBar?.progress ?: 50) * VOLUME_PROGRESS_MULTIPLIER
                 sharedViewModel?.communicate(
-                    CommunicatorConstants.COMMAND_SET_VOLUME,
-                    progress * VOLUME_PROGRESS_MULTIPLIER
+                    Message(Command.SET_VOLUME, progress)
                 )
             }
         })
@@ -63,7 +64,7 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
 
     private fun getCurrentVolume() {
         sharedViewModel?.communicate(
-            CommunicatorConstants.COMMAND_GET_VOLUME,
+            Message(Command.GET_VOLUME),
             onSuccess = { responseParams ->
                 readGetVolumeResponse(responseParams)
                 enableVolumeSeekBar()
@@ -101,7 +102,7 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
 
     private fun sendMuteCommand() {
         sharedViewModel?.communicate(
-            CommunicatorConstants.COMMAND_MUTE,
+            Message(Command.MUTE),
             onSuccess = {
                 muteBtn.text = getString(R.string.volume_control_unmute_btn)
                 muteBtn.setOnClickListener{
@@ -113,7 +114,7 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
 
     private fun sendUnmuteCommand() {
         sharedViewModel?.communicate(
-            CommunicatorConstants.COMMAND_UNMUTE,
+            Message(Command.UNMUTE),
             onSuccess = {
                 muteBtn.text = getString(R.string.volume_control_mute_btn)
                 muteBtn.setOnClickListener{

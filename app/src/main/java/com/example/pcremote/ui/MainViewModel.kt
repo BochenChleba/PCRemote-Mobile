@@ -5,9 +5,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.pcremote.constants.NetworkConstants
-import com.example.pcremote.R
 import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.MiscConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.enum.ConnectionStatus
 import com.example.pcremote.ext.changeValueIfDifferent
 import com.example.pcremote.singleton.Communicator
@@ -15,7 +16,6 @@ import com.example.pcremote.util.Preferences
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import java.util.logging.Handler
 
 class MainViewModel: ViewModel() {
     lateinit var navigator: MainNavigator
@@ -61,16 +61,18 @@ class MainViewModel: ViewModel() {
             })
     }
 
-    fun communicate(command: String, vararg params: Any, onSuccess: ((List<String>)->Any?)? = null,
+    fun communicate(message: Message, onSuccess: ((List<String>)->Any?)? = null,
                     onFailure: (()->Unit)? = null) {
         if (communicationInProgress) {
-            handler.postDelayed({
-                communicate(command, *params, onSuccess = onSuccess, onFailure = onFailure)
-            }, MiscConstants.COMMUNICATION_RETRY_DELAY)
+            if (message.command.awaitsForResponse) {
+                handler.postDelayed({
+                    communicate(message, onSuccess = onSuccess, onFailure = onFailure)
+                }, MiscConstants.COMMUNICATION_RETRY_DELAY)
+            }
             return
         }
 
-        communicator?.sendCommand(command, *params)?.let { commandObservable ->
+        communicator?.sendCommand(message)?.let { commandObservable ->
             commandObservable
                 .doOnSubscribe {
                     communicationInProgress = true
@@ -81,7 +83,7 @@ class MainViewModel: ViewModel() {
                 .subscribe( { responseParams ->
                     onSuccess?.invoke(responseParams)
                 }, { ex ->
-                    handleCommunicationFailure(command, ex)
+                    handleCommunicationFailure(message.command, ex)
                     onFailure?.invoke()
                 })
                 .let { disposable ->
@@ -90,15 +92,15 @@ class MainViewModel: ViewModel() {
         } ?: reinitializeCommunicator()
     }
 
-    private fun handleCommunicationFailure(command: String, ex: Throwable) {
+    private fun handleCommunicationFailure(command: Command, ex: Throwable) {
         Log.e(NetworkConstants.LOG_TAG, ex.toString())
-        if (command == CommunicatorConstants.COMMAND_PING) {
+        if (command == Command.PING) {
             return
         }
         connectionStatus.changeValueIfDifferent(ConnectionStatus.CONNECTING)
 
         communicate(
-            CommunicatorConstants.COMMAND_PING,
+            Message(Command.PING),
             onSuccess = { response ->
                 response.firstOrNull()?.let { msg ->
                     if (msg == CommunicatorConstants.FEEDBACK_PONG) {

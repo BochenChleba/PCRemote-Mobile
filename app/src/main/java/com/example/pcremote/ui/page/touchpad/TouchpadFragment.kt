@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.constants.CommunicatorConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.ui.base.BaseFragment
 import com.example.pcremote.util.Preferences
 import com.example.pcremote.view.ITouchpadView
@@ -45,8 +47,10 @@ class TouchpadFragment: BaseFragment(), TouchpadNavigator, ITouchpadView {
     override fun onTouchpadMove(offset: Offset) {
         Log.d("kurwamac", "x: ${offset.xOffset}, y: ${offset.yOffset}")
         sharedViewModel?.communicate(
-            CommunicatorConstants.COMMAND_MOUSE_MOVE,
-            offset.xOffset, offset.yOffset
+            Message(
+                Command.MOUSE_MOVE,
+                listOf(offset.xOffset, offset.yOffset)
+            )
         )
     }
 

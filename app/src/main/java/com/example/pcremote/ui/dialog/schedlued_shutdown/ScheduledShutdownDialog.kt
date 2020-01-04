@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.adapter.ShutdownViewPagerAdapter
@@ -21,11 +22,10 @@ import org.jetbrains.anko.support.v4.toast
 
 class ScheduledShutdownDialog : BaseDialog() {
 
+    lateinit var shutdownScheduledCallback: ()->Unit
+
     companion object {
         const val TAG = "scheduled shutdown"
-
-        lateinit var shutdownScheduledCallback: ()->Unit
-
         fun newInstance(): ScheduledShutdownDialog {
             return ScheduledShutdownDialog()
         }
@@ -40,7 +40,6 @@ class ScheduledShutdownDialog : BaseDialog() {
             viewPager?.adapter = ShutdownViewPagerAdapter(childFragmentManager, ctx)
             tabLayout?.setupWithViewPager(viewPager)
             ctx.showKeyboard()
-            setCallbacks()
         }
     }
 
@@ -49,11 +48,24 @@ class ScheduledShutdownDialog : BaseDialog() {
         context?.hideKeyboard()
     }
 
-    private fun setCallbacks() {
-        ShutdownCountdownFragment.dismissCallback = { dismiss() }
-        ShutdownCountdownFragment.shutdownScheduledCallback = { timeout -> onShutdownScheduled(timeout) }
-        ShutdownSpecifiedFragment.dismissCallback = { dismiss() }
-        ShutdownSpecifiedFragment.shutdownScheduledCallback = { timeout -> onShutdownScheduled(timeout) }
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        (childFragment as? ShutdownCountdownFragment)?.let { fragment ->
+            fragment.dismissCallback = {
+                dismiss()
+            }
+            fragment.shutdownScheduledCallback = { timeout ->
+                onShutdownScheduled(timeout)
+            }
+        }
+        (childFragment as? ShutdownSpecifiedFragment)?.let { fragment ->
+            fragment.dismissCallback = {
+                dismiss()
+            }
+            fragment.shutdownScheduledCallback = { timeout ->
+                onShutdownScheduled(timeout)
+            }
+        }
     }
 
     private fun onShutdownScheduled(timeout: Int) {

@@ -15,8 +15,6 @@ import org.jetbrains.anko.tabWidget
 import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity(), MainNavigator {
-
-    // pyautogui in pycharm
     // touchpad communication
     // fullscreen touchpad
 

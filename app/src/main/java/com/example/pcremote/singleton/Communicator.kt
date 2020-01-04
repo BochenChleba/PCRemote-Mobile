@@ -1,11 +1,8 @@
 package com.example.pcremote.singleton
 
-import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.NetworkConstants
-import com.example.pcremote.exception.UnsuccessfulResponseException
-import com.example.pcremote.ext.isAwaitingParamsResponse
+import com.example.pcremote.dto.Message
 import com.example.pcremote.ext.readResponse
-import com.example.pcremote.ext.serialize
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -50,21 +47,15 @@ class Communicator(ipAddress: String) {
         }
     }
 
-    fun sendCommand(command: String, vararg params: Any): Single<List<String>> {
+    fun sendCommand(message: Message): Single<List<String>> {
         return Single.fromCallable {
             val dataBuff = ByteArray(DATA_BUFF_SIZE)
-            val secondaryBuff = ByteArray(DATA_BUFF_SIZE)
-            outputStream.write(command.toByteArray())
+            outputStream.write(message.toByteArray())
             inputStream.read(dataBuff)
-            if (params.isEmpty()) {
+            if (message.command.awaitsForResponse) {
                 dataBuff.readResponse()
             } else {
-                if (!dataBuff.isAwaitingParamsResponse()) {
-                    throw UnsuccessfulResponseException()
-                }
-                outputStream.write(arrayOf(*params).serialize().toByteArray())
-                inputStream.read(secondaryBuff)
-                secondaryBuff.readResponse()
+                emptyList()
             }
         }
             .subscribeOn(Schedulers.io())

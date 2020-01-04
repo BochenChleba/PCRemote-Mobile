@@ -1,11 +1,9 @@
 package com.example.pcremote.ui.connection_status
 
 import android.os.Handler
-import android.util.Log
-import com.example.pcremote.constants.CommunicatorConstants
-import com.example.pcremote.constants.MiscConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.enum.ConnectionStatus
-import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
 
 class PingingThread(private val viewModel: MainViewModel): Thread() {
@@ -27,7 +25,7 @@ class PingingThread(private val viewModel: MainViewModel): Thread() {
     override fun run() {
         runnable = Runnable {
             viewModel.communicate(
-                CommunicatorConstants.COMMAND_PING,
+                Message(Command.PING),
                 onSuccess =  { changeConnectionStatus(ConnectionStatus.CONNECTED) },
                 onFailure = { changeConnectionStatus(ConnectionStatus.DISCONNECTED) }
             )

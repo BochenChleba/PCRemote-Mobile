@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.R
 import com.example.pcremote.constants.CommunicatorConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.MainViewModel
@@ -19,10 +21,10 @@ class ShutdownCountdownFragment: Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var privateViewModel: ShutdownCountdownViewModel
+    lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
+    lateinit var dismissCallback: ()->Unit
 
     companion object {
-        lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
-        lateinit var dismissCallback: ()->Unit
         fun newInstance(): ShutdownCountdownFragment {
             return ShutdownCountdownFragment()
         }
@@ -76,13 +78,11 @@ class ShutdownCountdownFragment: Fragment() {
         )
         val startTime = System.currentTimeMillis()
         viewModel.communicate(
-            CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN,
-            timeout.toString(),
+            Message(Command.SCHEDULE_SHUTDOWN, timeout.toString()),
             onSuccess = {
                 val actualTimeout = timeout - ((System.currentTimeMillis() - startTime) / 1000)
                 shutdownScheduledCallback.invoke(actualTimeout.toInt())
             }) {
-
         }
     }
 }

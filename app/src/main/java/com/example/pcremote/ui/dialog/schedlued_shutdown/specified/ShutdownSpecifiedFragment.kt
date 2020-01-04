@@ -11,6 +11,8 @@ import com.example.pcremote.constants.MiscConstants
 import com.example.pcremote.R
 import com.example.pcremote.constants.CommunicatorConstants
 import com.example.pcremote.constants.TimeConstants
+import com.example.pcremote.dto.Message
+import com.example.pcremote.enum.Command
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.ext.toIntOrZero
 import com.example.pcremote.singleton.Communicator
@@ -22,10 +24,10 @@ class ShutdownSpecifiedFragment: Fragment() {
 
     private lateinit var viewModel: MainViewModel
     private lateinit var privateViewModel: ShutdownSpecifiedViewModel
+    lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
+    lateinit var dismissCallback: ()->Unit
 
     companion object {
-        lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
-        lateinit var dismissCallback: ()->Unit
         fun newInstance(): ShutdownSpecifiedFragment {
             return ShutdownSpecifiedFragment()
         }
@@ -83,8 +85,10 @@ class ShutdownSpecifiedFragment: Fragment() {
             return
         }
 
-        viewModel.communicate(CommunicatorConstants.COMMAND_SCHEDULE_SHUTDOWN, timeout.toString(), onSuccess = {
-            shutdownScheduledCallback.invoke(timeout)
-        })
+        viewModel.communicate(
+            Message(Command.SCHEDULE_SHUTDOWN, timeout.toString()),
+            onSuccess = {
+                shutdownScheduledCallback.invoke(timeout)
+            })
     }
 }
