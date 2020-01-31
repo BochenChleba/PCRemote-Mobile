@@ -7,14 +7,12 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.pcremote.constants.MiscConstants
+import com.example.pcremote.data.constants.MiscConstants
 import com.example.pcremote.R
-import com.example.pcremote.constants.CommunicatorConstants
-import com.example.pcremote.dto.Message
-import com.example.pcremote.enum.Command
+import com.example.pcremote.data.dto.Message
+import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.onActionDone
-import com.example.pcremote.singleton.Communicator
-import com.example.pcremote.ui.MainViewModel
+import com.example.pcremote.ui.activity.main.MainViewModel
 import kotlinx.android.synthetic.main.fragment_shutdown_countdown.*
 
 class ShutdownCountdownFragment: Fragment() {

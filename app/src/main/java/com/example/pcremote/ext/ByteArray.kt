@@ -1,9 +1,8 @@
 package com.example.pcremote.ext
 
-import com.example.pcremote.constants.CommunicatorConstants
-import com.example.pcremote.constants.NetworkConstants
-import com.example.pcremote.exception.UnsuccessfulResponseException
-import com.example.pcremote.singleton.Communicator
+import com.example.pcremote.data.constants.CommunicatorConstants
+import com.example.pcremote.data.constants.NetworkConstants
+import com.example.pcremote.data.exception.UnsuccessfulResponseException
 import java.nio.charset.Charset
 
 fun ByteArray.readResponse(): List<String> {

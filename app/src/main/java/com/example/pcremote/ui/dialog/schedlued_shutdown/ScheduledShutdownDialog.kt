@@ -5,16 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.adapter.ShutdownViewPagerAdapter
-import com.example.pcremote.constants.TimeConstants
+import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.hideKeyboard
 import com.example.pcremote.ext.showKeyboard
-import com.example.pcremote.ui.MainViewModel
-import com.example.pcremote.ui.base.BaseDialog
+import com.example.pcremote.ui.dialog.base.BaseDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.countdown.ShutdownCountdownFragment
 import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedFragment
 import kotlinx.android.synthetic.main.dialog_scheduled_shutdown.*
@@ -45,7 +42,7 @@ class ScheduledShutdownDialog : BaseDialog() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        context?.hideKeyboard()
+        context?.hideKeyboard(scheduledShutdownRootLayout)
     }
 
     override fun onAttachFragment(childFragment: Fragment) {

@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/scheduledShutdownRootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dialogBackground">
@@ -31,7 +32,7 @@
             app:layout_constraintTop_toBottomOf="@id/titleTv"
     />
 
-    <com.example.pcremote.util.WrapContentViewPager
+    <com.example.pcremote.view.viewpager.WrapContentViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,10 +1,9 @@
 package com.example.pcremote.ui.dialog.shutdown_now
 
 import com.example.pcremote.R
-import com.example.pcremote.constants.CommunicatorConstants
-import com.example.pcremote.dto.Message
-import com.example.pcremote.enum.Command
-import com.example.pcremote.ui.base.SimpleDialog
+import com.example.pcremote.data.dto.Message
+import com.example.pcremote.data.enum.Command
+import com.example.pcremote.ui.dialog.base.SimpleDialog
 
 class ShutdownNowDialog : SimpleDialog() {
 

@@ -1,7 +1,7 @@
 package com.example.pcremote.ui.dialog.schedlued_shutdown.countdown
 
 import androidx.lifecycle.ViewModel
-import com.example.pcremote.constants.TimeConstants
+import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.toIntOrZero
 
 class ShutdownCountdownViewModel: ViewModel() {

@@ -1,7 +1,7 @@
 package com.example.pcremote.singleton
 
-import com.example.pcremote.constants.NetworkConstants
-import com.example.pcremote.dto.Message
+import com.example.pcremote.data.constants.NetworkConstants
+import com.example.pcremote.data.dto.Message
 import com.example.pcremote.ext.readResponse
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
