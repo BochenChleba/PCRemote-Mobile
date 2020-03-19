@@ -21,10 +21,11 @@ class Communicator(ipAddress: String) {
     private val inputStream = socket.getInputStream()
 
     companion object {
-        const val DATA_BUFF_SIZE = 64
+        const val DATA_BUFF_SIZE = 1024
         const val SOCKET_TIMEOUT = 2500
         private var instance: Communicator? = null
 
+        @Synchronized
         fun getInstanceAsync(ipAddress: String): Single<Communicator> {
             return Single.fromCallable {
                 if (instance == null) {
@@ -36,6 +37,7 @@ class Communicator(ipAddress: String) {
                 .observeOn(AndroidSchedulers.mainThread())
         }
 
+        @Synchronized
         fun reinstantiateAsync(ipAddress: String): Single<Communicator> {
             return Single.fromCallable {
                 instance?.socket?.close()
@@ -61,6 +63,4 @@ class Communicator(ipAddress: String) {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
-
-
 }

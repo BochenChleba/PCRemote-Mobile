@@ -15,11 +15,10 @@ import com.example.pcremote.ext.show
 import com.example.pcremote.ui.activity.main.MainViewModel
 import com.example.pcremote.ui.dialog.enter_ip.EnterIpDialog
 import com.example.pcremote.singleton.Preferences
+import com.example.pcremote.ui.dialog.scan.WifiScanDialog
 import kotlinx.android.synthetic.main.fragment_connection_status.*
-import org.jetbrains.anko.support.v4.toast
 
 class ConnectionStatusFragment: Fragment() {
-
     private var viewModel: MainViewModel? = null
     private var expanded = false
     private var pingingThread: PingingThread? = null
@@ -38,7 +37,6 @@ class ConnectionStatusFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { actv ->
             viewModel = ViewModelProviders.of(actv).get(MainViewModel::class.java)
-            setDialogCallbacks()
             setOnClicks(actv)
             ipAddressTv.text = getString(
                 R.string.connection_status_ip_address,
@@ -48,10 +46,26 @@ class ConnectionStatusFragment: Fragment() {
         observeConnectionStatus()
     }
 
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        (childFragment as? EnterIpDialog)?.let { fragment ->
+            fragment.confirmCallback = { saveIpAddressAndConnect(it) }
+        }
+        (childFragment as? WifiScanDialog)?.let { fragment ->
+            fragment.itemSelectedCallback = { saveIpAddressAndConnect(it) }
+        }
+    }
+
+    private fun saveIpAddressAndConnect(ipAddress: String) {
+        viewModel?.prefs?.setIpAddress(ipAddress)
+        viewModel?.reinitializeCommunicator()
+        ipAddressTv.text = ipAddress
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel?.let { vm ->
-           // pingingThread = PingingThread(vm).apply { run() }
+            pingingThread = PingingThread(vm).apply { run() }
         }
     }
 
@@ -72,30 +86,22 @@ class ConnectionStatusFragment: Fragment() {
                     collapse()
                     progressBar.gone()
                     connectionStatusTv.text = getString(R.string.connectionStatusConnected)
-                    rootLayout.setBackgroundColor(context!!.getColor(R.color.connectionOkBackground))
+                    rootLayout.setBackgroundColor(requireContext().getColor(R.color.connectionOkBackground))
                 }
                 ConnectionStatus.CONNECTING -> {
                     progressBar.show()
                     connectionStatusTv.text = getString(R.string.connectionStatusConnecting)
-                    rootLayout.setBackgroundColor(context!!.getColor(R.color.connectingBackground))
+                    rootLayout.setBackgroundColor(requireContext().getColor(R.color.connectingBackground))
                 }
                 ConnectionStatus.DISCONNECTED -> {
                     expand()
                     progressBar.gone()
                     connectionStatusTv.text = getString(R.string.connectionStatusDisconnected)
-                    rootLayout.setBackgroundColor(context!!.getColor(R.color.disconnectedBackground))
+                    rootLayout.setBackgroundColor(requireContext().getColor(R.color.disconnectedBackground))
                 }
                 null -> {}
             }
         })
-    }
-
-    private fun setDialogCallbacks() {
-        EnterIpDialog.confirmCallback = { ipAddress: String ->
-            viewModel?.prefs?.setIpAddress(ipAddress)
-            viewModel?.reinitializeCommunicator()
-            ipAddressTv.text = ipAddress
-        }
     }
 
     private fun setOnClicks(activity: FragmentActivity) {
@@ -109,11 +115,12 @@ class ConnectionStatusFragment: Fragment() {
 
         enterIpTv?.setOnClickListener {
             EnterIpDialog.newInstance()
-                .show(activity.supportFragmentManager, EnterIpDialog.TAG)
+                .show(childFragmentManager, EnterIpDialog.TAG)
         }
 
-        autoScanTv?.setOnClickListener {
-            toast("jeszcze nie ma")
+        wifiScanTv?.setOnClickListener {
+            WifiScanDialog.newInstance()
+                .show(childFragmentManager, WifiScanDialog.TAG)
         }
 
         reconnectTv?.setOnClickListener {
@@ -125,7 +132,7 @@ class ConnectionStatusFragment: Fragment() {
         context?.let { ctx ->
             ipAddressTv.show()
             enterIpTv.show()
-            autoScanTv.show()
+            wifiScanTv.show()
             reconnectTv.show()
             arrowIv.setImageDrawable(ctx.getDrawable(R.drawable.ic_arrow_drop_up))
             expanded = true
@@ -136,7 +143,7 @@ class ConnectionStatusFragment: Fragment() {
         context?.let { ctx ->
             ipAddressTv.gone()
             enterIpTv.gone()
-            autoScanTv.gone()
+            wifiScanTv.gone()
             reconnectTv.gone()
             arrowIv.setImageDrawable(ctx.getDrawable(R.drawable.ic_arrow_drop_down))
             expanded = false

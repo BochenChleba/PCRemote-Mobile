@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.data.dto.Message
@@ -13,17 +14,11 @@ import com.example.pcremote.ui.fragment.base.BaseFragment
 import com.example.pcremote.singleton.Preferences
 import com.example.pcremote.view.touchpad.ITouchpadView
 import com.example.pcremote.data.Offset
-import com.example.pcremote.ext.*
-import com.example.pcremote.ui.fragment.connection_status.ConnectionStatusFragment
-import com.example.pcremote.view.scroll_view.ISwipeableViewPager
+import com.example.pcremote.data.enum.ConnectionStatus
 import kotlinx.android.synthetic.main.fragment_touchpad.*
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
-import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
-
 
 class TouchpadFragment: BaseFragment(), TouchpadNavigator {
     private lateinit var viewModel: TouchpadViewModel
-    var fragmentSwipeListener: ISwipeableViewPager? = null
 
     companion object {
         fun newInstance(): TouchpadFragment {
@@ -42,14 +37,18 @@ class TouchpadFragment: BaseFragment(), TouchpadNavigator {
             viewModel.navigator = this
             viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(fragmentActivity)
             setListeners(fragmentActivity)
+            observeConnectionStatus()
         }
     }
 
     private fun setListeners(activity: FragmentActivity) {
         touchpadView.listener = touchpadListener
-       // touchpadScrollView.swipeListener = fragmentSwipeListener
-        keyboardImageView.setOnClickListener(keyboardImageClickListener)
-        KeyboardVisibilityEvent.setEventListener(activity, keyboardVisibilityChangeListener)
+    }
+
+    private fun observeConnectionStatus() {
+        sharedViewModel?.connectionStatus?.observe(this, Observer { connectionStatus ->
+            touchpadView.isDisabled = connectionStatus != ConnectionStatus.CONNECTED
+        })
     }
 
     private val touchpadListener = object : ITouchpadView {
@@ -71,34 +70,7 @@ class TouchpadFragment: BaseFragment(), TouchpadNavigator {
                 Message(Command.MOUSE_RIGHT_CLICK)
             )
         }
-        override fun onTouchEventIntercepted(isEventFinished: Boolean) {
-          //  touchpadScrollView.eventIntercepted = !isEventFinished
-        }
     }
 
-    private val keyboardVisibilityChangeListener: KeyboardVisibilityEventListener
-            = KeyboardVisibilityEventListener { isVisible: Boolean ->
-        if (isVisible) {
-        //    touchpadScrollView.scrollToBottom()
-            collapseConnectionStatusFragment()
-            keyboardImageView.setOnClickListener(keyboardImageClickListener2)
-        } else {
-            keyboardImageView.setOnClickListener(keyboardImageClickListener)
-        }
-    }
 
-    private val keyboardImageClickListener: View.OnClickListener = View.OnClickListener { view ->
-        context?.showKeyboard()
-    }
-
-    private val keyboardImageClickListener2: View.OnClickListener = View.OnClickListener { view ->
-        context?.hideKeyboard(touchPadRootLayout)
-    }
-
-    private fun collapseConnectionStatusFragment() {
-        val connectionStatusFragment =
-            fragmentManager?.findFragmentById(R.id.connectionStatusFragment)
-                    as? ConnectionStatusFragment
-        connectionStatusFragment?.collapse()
-    }
 }

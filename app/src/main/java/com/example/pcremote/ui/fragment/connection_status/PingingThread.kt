@@ -29,9 +29,7 @@ class PingingThread(private val viewModel: MainViewModel): Thread() {
                 onSuccess =  { changeConnectionStatus(ConnectionStatus.CONNECTED) },
                 onFailure = { changeConnectionStatus(ConnectionStatus.DISCONNECTED) }
             )
-            handler.postDelayed(this,
-                PING_INTERVAL_MS
-            )
+            handler.postDelayed(this, PING_INTERVAL_MS)
         }.apply { run() }
     }
 

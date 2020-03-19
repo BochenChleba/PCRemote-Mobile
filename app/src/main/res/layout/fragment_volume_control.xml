@@ -18,7 +18,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/fragment_title_margin_top"
     />
 
     <SeekBar
@@ -48,7 +48,7 @@
             android:id="@+id/muteBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_button_drawable"
+            android:background="@drawable/shape_button"
             android:textSize="17sp"
             android:visibility="invisible"
             android:layout_marginStart="32dp"

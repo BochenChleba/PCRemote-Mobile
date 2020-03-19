@@ -15,14 +15,12 @@ class EnterIpDialog : BaseDialog() {
 
     companion object {
         const val TAG = "enter IP"
-
-        lateinit var confirmCallback: (String)->Unit
-
         fun newInstance(): EnterIpDialog {
             return EnterIpDialog()
         }
     }
 
+    lateinit var confirmCallback: (String)->Unit
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
             = inflater.inflate(R.layout.dialog_enter_ip, container)

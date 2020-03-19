@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!--<com.example.pcremote.view.scroll_view.SwipeableScrollView
-
-        android:id="@+id/touchpadScrollView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >-->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -29,32 +21,17 @@
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
-                android:layout_marginTop="32dp" />
+                android:layout_marginTop="@dimen/fragment_title_margin_top" />
 
         <com.example.pcremote.view.touchpad.TouchpadView
                 android:id="@+id/touchpadView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="32dp"
-                android:background="@drawable/shape_touchpad_drawable"
+                android:background="@drawable/shape_touchpad"
                 app:layout_constraintDimensionRatio="h,1:1"
-                app:layout_constraintBottom_toTopOf="@id/keyboardImageView"
                 app:layout_constraintTop_toBottomOf="@id/titleTv"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-        <ImageView
-                android:id="@+id/keyboardImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard"
-                android:padding="10dp"
-                app:layout_constraintEnd_toEndOf="@id/touchpadView"
-                app:layout_constraintTop_toBottomOf="@id/touchpadView"
-                />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--
-
-</com.example.pcremote.view.scroll_view.SwipeableScrollView>
--->

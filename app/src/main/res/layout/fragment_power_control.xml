@@ -18,7 +18,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="24sp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="@dimen/fragment_title_margin_top"
     />
 
     <RelativeLayout
@@ -70,7 +70,7 @@
             android:id="@+id/shutdownNowBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_button_drawable"
+            android:background="@drawable/shape_button"
             android:text="@string/power_control_shutdown_btn"
             android:textSize="17sp"
             android:layout_marginStart="32dp"
@@ -83,7 +83,7 @@
             android:id="@+id/scheduledShutdownBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_button_drawable"
+            android:background="@drawable/shape_button"
             android:text="@string/power_control_scheduled_shutdown_btn"
             android:textSize="17sp"
             android:layout_marginTop="18dp"
@@ -96,7 +96,7 @@
             android:id="@+id/restartBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_button_drawable"
+            android:background="@drawable/shape_button"
             android:text="@string/power_control_restart_btn"
             android:textSize="17sp"
             android:layout_marginTop="18dp"

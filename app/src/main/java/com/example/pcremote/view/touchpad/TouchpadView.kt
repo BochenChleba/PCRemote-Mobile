@@ -17,6 +17,7 @@ class TouchpadView(context: Context, attributeSet: AttributeSet)
     : View(context, attributeSet) {
 
     var listener: ITouchpadView? = null
+    var isDisabled = false
     private var prevX = UNSET_FLOAT
     private var prevY = UNSET_FLOAT
     private var viableForClickEvent = true
@@ -28,6 +29,9 @@ class TouchpadView(context: Context, attributeSet: AttributeSet)
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         super.onTouchEvent(event)
+        if (isDisabled) {
+            return true
+        }
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 actionDown(event)

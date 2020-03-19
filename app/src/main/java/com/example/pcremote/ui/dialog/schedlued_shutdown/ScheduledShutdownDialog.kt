@@ -36,7 +36,7 @@ class ScheduledShutdownDialog : BaseDialog() {
         context?.let { ctx ->
             viewPager?.adapter = ShutdownViewPagerAdapter(childFragmentManager, ctx)
             tabLayout?.setupWithViewPager(viewPager)
-            ctx.showKeyboard()
+            ctx.showKeyboard(view)
         }
     }
 

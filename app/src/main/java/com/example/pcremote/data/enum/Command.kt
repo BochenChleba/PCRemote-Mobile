@@ -13,4 +13,7 @@ enum class Command(val stringVal: String, val awaitsForResponse: Boolean = true)
     MOUSE_MOVE("9", false),
     MOUSE_LEFT_CLICK("10"),
     MOUSE_RIGHT_CLICK("11"),
+    KEYBOARD_SPECIAL_KEY("12"),
+    KEYBOARD_REGULAR_KEY("13"),
+    KEYBOARD_FETCH_KEY_STATE("14")
 }

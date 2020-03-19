@@ -18,7 +18,7 @@
     <string name="shutdown_specified_prompt">Shutdown at:</string>
     <string name="shutdown_scheduled">Shutdown scheduled</string>
     <string name="shutdown_countdown_message">Remained: %s</string>
-    <string name="toast_no_connection">Not connected to PC</string>
+    <string name="toast_no_connection">No connection</string>
     <string name="toast_invalid_time">Invalid time. Enter time between 00:00:00 and 23:59:59.</string>
     <string name="toast_cannot_complete_command">Cannot complete this request</string>
     <string name="toast_shutdown_complete">System should be shutting down now</string>
@@ -32,17 +32,21 @@
     <string name="enter_ip_dialog_title">Enter IP</string>
     <string name="enter_ip_dialog_hint">IP address</string>
     <string name="enter_ip_dialog_message">Enter IP address of PC. It can be found in command prompt: ipconfig -> IPv4</string>
+    <string name="wifi_scan_dialog_title">Wifi Scan</string>
+    <string name="wifi_scan_dialog_message">Scanning for devices connected to the network</string>
+    <string name="wifi_scan_dialog_scan_completed_toast">Wifi scan completed</string>
     <string name="volume_control_title">Volume Control</string>
     <string name="volume_control_mute_btn">mute</string>
     <string name="volume_control_unmute_btn">unmute</string>
     <string name="touchpad_title">Touch pad</string>
+    <string name="keyboard_title">Keyboard</string>
+    <string name="show_keyboard_button_text">Show Keyboard</string>
+    <string name="hide_keyboard_button_text">Hide Keyboard</string>
 
     <string-array name="tabs">
-        <item>Touch Pad</item>
         <item>Power</item>
         <item>Volume</item>
         <item>Touch Pad</item>
-        <item>Power</item>
-        <item>Volume</item>
+        <item>Keyboard</item>
     </string-array>
 </resources>

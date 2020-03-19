@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/keyboardRootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+    <TextView
+            android:id="@+id/titleTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fragment_title_margin_top"
+            android:gravity="center"
+            android:text="@string/keyboard_title"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+            android:id="@+id/showOrHideKeyboardButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/shape_button"
+            android:text="show keyboard"
+            android:textColor="@color/almostWhite"
+            android:textSize="17sp"
+            app:layout_constraintTop_toBottomOf="@id/titleTv" />
+
+    <Button
+            android:id="@+id/keyTabButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/shape_button"
+            android:text="TAB"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyEscButton"
+            app:layout_constraintEnd_toStartOf="@+id/keyShiftButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/keyEscButton"
+            app:layout_constraintTop_toTopOf="@+id/keyEscButton" />
+
+    <Button
+            android:id="@+id/keyEscButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:text="ESC"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:paddingVertical="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/keyTabButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showOrHideKeyboardButton"
+            app:layout_constraintVertical_bias="0.24000001" />
+
+    <Button
+            android:id="@+id/keyShiftButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/shape_button"
+            android:text="SHIFT"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyTabButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/keyTabButton"
+            app:layout_constraintTop_toTopOf="@+id/keyTabButton" />
+
+    <Button
+            android:id="@+id/keyCtrlButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/shape_button"
+            android:text="CTRL"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/keyWindowsButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/keyEscButton" />
+
+    <Button
+            android:id="@+id/keyWindowsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="4dp"
+            android:background="@drawable/shape_button"
+            android:text="WIN"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyCtrlButton"
+            app:layout_constraintEnd_toStartOf="@+id/keyAltButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/keyCtrlButton"
+            app:layout_constraintTop_toTopOf="@+id/keyCtrlButton" />
+
+    <Button
+            android:id="@+id/keyAltButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:text="ALT"
+            android:textColor="@color/almostWhite"
+            android:textSize="15sp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/keyWindowsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/keyWindowsButton"
+            app:layout_constraintTop_toTopOf="@+id/keyWindowsButton" />
+
+    <EditText
+            android:id="@+id/hiddenEditText"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

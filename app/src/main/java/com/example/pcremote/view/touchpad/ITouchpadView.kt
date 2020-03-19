@@ -6,5 +6,4 @@ interface ITouchpadView {
     fun onTouchpadMove(offset: Offset)
     fun onTouchpadClick()
     fun onTouchpadLongClick()
-    fun onTouchEventIntercepted(isEventFinished: Boolean)
 }

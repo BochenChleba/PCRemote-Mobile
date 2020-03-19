@@ -17,11 +17,14 @@ class Preferences(context: Context) {
         var instance: Preferences? = null
 
         fun getInstance(context: Context): Preferences {
-            if (instance == null) {
-                instance =
-                    Preferences(context)
+            val lock = Any()
+            synchronized(lock) {
+                if (instance == null) {
+                    instance =
+                        Preferences(context)
+                }
+                return instance!!
             }
-            return instance!!
         }
     }
 
@@ -56,5 +59,5 @@ class Preferences(context: Context) {
     fun getIpAddress(): String = sharedPreferences.getString(
         KEY_IP_ADDRESS,
         UNSET_STRING
-    )
+    ) ?: ""
 }
