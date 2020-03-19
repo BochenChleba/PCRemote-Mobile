@@ -45,7 +45,7 @@ class PowerControlFragment: BaseFragment(), PowerControlNavigator {
     private fun initializeViewModel(activity: FragmentActivity) {
         viewModel = ViewModelProviders.of(activity).get(PowerControlViewModel::class.java)
         viewModel.navigator = this
-        viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(activity)
+        viewModel.initializePreferencesInstance(activity)
     }
 
     private fun setClickListeners() {

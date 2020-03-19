@@ -16,10 +16,10 @@ import com.example.pcremote.ui.activity.main.MainViewModel
 import com.example.pcremote.ui.dialog.enter_ip.EnterIpDialog
 import com.example.pcremote.singleton.Preferences
 import com.example.pcremote.ui.dialog.scan.WifiScanDialog
+import com.example.pcremote.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_connection_status.*
 
-class ConnectionStatusFragment: Fragment() {
-    private var viewModel: MainViewModel? = null
+class ConnectionStatusFragment: BaseFragment() {
     private var expanded = false
     private var pingingThread: PingingThread? = null
 
@@ -36,7 +36,6 @@ class ConnectionStatusFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { actv ->
-            viewModel = ViewModelProviders.of(actv).get(MainViewModel::class.java)
             setOnClicks(actv)
             ipAddressTv.text = getString(
                 R.string.connection_status_ip_address,
@@ -57,14 +56,14 @@ class ConnectionStatusFragment: Fragment() {
     }
 
     private fun saveIpAddressAndConnect(ipAddress: String) {
-        viewModel?.prefs?.setIpAddress(ipAddress)
-        viewModel?.reinitializeCommunicator()
+        sharedViewModel?.prefs?.setIpAddress(ipAddress)
+        sharedViewModel?.reinitializeCommunicator()
         ipAddressTv.text = ipAddress
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel?.let { vm ->
+        sharedViewModel?.let { vm ->
             pingingThread = PingingThread(vm).apply { run() }
         }
     }
@@ -76,7 +75,7 @@ class ConnectionStatusFragment: Fragment() {
     }
 
     private fun observeConnectionStatus() {
-        viewModel?.connectionStatus?.observe(this, Observer { status ->
+        sharedViewModel?.connectionStatus?.observe(this, Observer { status ->
             if (context == null) {
                 return@Observer
             }
@@ -124,7 +123,7 @@ class ConnectionStatusFragment: Fragment() {
         }
 
         reconnectTv?.setOnClickListener {
-            viewModel?.reinitializeCommunicator()
+            sharedViewModel?.reinitializeCommunicator()
         }
     }
 

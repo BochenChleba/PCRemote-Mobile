@@ -3,9 +3,10 @@ package com.example.pcremote.ui.dialog.schedlued_shutdown.specified
 import androidx.lifecycle.ViewModel
 import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.toIntOrZero
+import com.example.pcremote.ui.activity.base.BaseViewModel
 import java.util.*
 
-class ShutdownSpecifiedViewModel: ViewModel() {
+class ShutdownSpecifiedViewModel: BaseViewModel<ShutdownSpecifiedNavigator>() {
 
     fun calculateTimeoutInSeconds(hours: String, minutes: String, seconds: String): Int? {
         val hoursInt = hours.toIntOrZero()

@@ -83,4 +83,9 @@ class WifiScanDialog : BaseDialog(), WifiScanNavigator {
         activity?.toast(R.string.wifi_scan_dialog_scan_completed_toast)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.dispose()
+    }
+
 }

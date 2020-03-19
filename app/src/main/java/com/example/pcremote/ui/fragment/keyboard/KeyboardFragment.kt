@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.data.constants.KeyboardKey.KEY_ALT
 import com.example.pcremote.data.constants.KeyboardKey.KEY_CTRL
@@ -17,16 +15,14 @@ import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.hideKeyboard
 import com.example.pcremote.ext.showKeyboard
-import com.example.pcremote.singleton.Preferences
 import com.example.pcremote.ui.fragment.base.BaseFragment
 import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEventListener
 
-class KeyboardFragment: BaseFragment(), KeyboardNavigator {
+class KeyboardFragment: BaseFragment() {
 
-    private lateinit var viewModel: KeyboardViewModel
     private var keysStateMap: MutableMap<String, Boolean> = mutableMapOf(
         KEY_SHIFT to false,
         KEY_CTRL to false,
@@ -46,15 +42,8 @@ class KeyboardFragment: BaseFragment(), KeyboardNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
-            initializeViewModel(fragmentActivity)
             setClickListeners()
         }
-    }
-
-    private fun initializeViewModel(activity: FragmentActivity) {
-        viewModel = ViewModelProviders.of(activity).get(KeyboardViewModel::class.java)
-        viewModel.navigator = this
-        viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(activity)
     }
 
     private fun setClickListeners() {

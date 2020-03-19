@@ -15,12 +15,6 @@ abstract class BaseActivity<T: BaseViewModel<*>> : AppCompatActivity(), BaseNavi
         super.onCreate(savedInstanceState)
         initializeViewModel()
         viewModel.initializePreferencesInstance(this)
-        viewModel.initializeCommunicator()
-    }
-
-    override fun onPause() {
-        super.onPause()
-     //   applicationContext.hideKeyboard()
     }
 
     override fun onDestroy() {

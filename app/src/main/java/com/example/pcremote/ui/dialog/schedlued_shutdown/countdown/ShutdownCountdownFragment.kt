@@ -12,13 +12,13 @@ import com.example.pcremote.R
 import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.onActionDone
-import com.example.pcremote.ui.activity.main.MainViewModel
+import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedNavigator
+import com.example.pcremote.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_shutdown_countdown.*
 
-class ShutdownCountdownFragment: Fragment() {
+class ShutdownCountdownFragment: BaseFragment(), ShutdownCountdownNavigator {
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var privateViewModel: ShutdownCountdownViewModel
+    private lateinit var viewModel: ShutdownCountdownViewModel
     lateinit var shutdownScheduledCallback: (timeout: Int)->Unit
     lateinit var dismissCallback: ()->Unit
 
@@ -35,8 +35,8 @@ class ShutdownCountdownFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
-            viewModel = ViewModelProviders.of(fragmentActivity).get(MainViewModel::class.java)
-            privateViewModel = ViewModelProviders.of(fragmentActivity).get(ShutdownCountdownViewModel::class.java)
+            viewModel = ViewModelProviders.of(fragmentActivity).get(ShutdownCountdownViewModel::class.java)
+            viewModel.navigator = this
             setClickListeners()
             setTextWatchers()
         }
@@ -69,13 +69,13 @@ class ShutdownCountdownFragment: Fragment() {
     }
 
     private fun performShutdown() {
-        val timeout = privateViewModel.calculateTimeoutInSeconds(
+        val timeout = viewModel.calculateTimeoutInSeconds(
             hoursEt.text.toString(),
             minutesEt.text.toString(),
             secondsEt.text.toString()
         )
         val startTime = System.currentTimeMillis()
-        viewModel.communicate(
+        sharedViewModel?.communicate(
             Message(Command.SCHEDULE_SHUTDOWN, timeout.toString()),
             onSuccess = {
                 val actualTimeout = timeout - ((System.currentTimeMillis() - startTime) / 1000)

@@ -17,8 +17,7 @@ import com.example.pcremote.data.Offset
 import com.example.pcremote.data.enum.ConnectionStatus
 import kotlinx.android.synthetic.main.fragment_touchpad.*
 
-class TouchpadFragment: BaseFragment(), TouchpadNavigator {
-    private lateinit var viewModel: TouchpadViewModel
+class TouchpadFragment: BaseFragment() {
 
     companion object {
         fun newInstance(): TouchpadFragment {
@@ -33,9 +32,6 @@ class TouchpadFragment: BaseFragment(), TouchpadNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
-            viewModel = ViewModelProviders.of(fragmentActivity).get(TouchpadViewModel::class.java)
-            viewModel.navigator = this
-            viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(fragmentActivity)
             setListeners(fragmentActivity)
             observeConnectionStatus()
         }

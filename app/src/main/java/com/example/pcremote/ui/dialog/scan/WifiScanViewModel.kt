@@ -41,7 +41,6 @@ class WifiScanViewModel: BaseViewModel<WifiScanNavigator>() {
 
     private fun getAvailableHosts(subnetAddress: String): Observable<String> {
         return Observable.create { emitter ->
-            Thread.sleep(5000)
             for (i in 1..255) {
                 val hostAddress = "$subnetAddress.$i"
                 try {

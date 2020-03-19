@@ -19,8 +19,7 @@ import com.example.pcremote.ui.fragment.base.BaseFragment
 import com.example.pcremote.singleton.Preferences
 import kotlinx.android.synthetic.main.fragment_volume_control.*
 
-class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
-    private lateinit var viewModel: VolumeControlViewModel
+class VolumeControlFragment: BaseFragment() {
 
     companion object {
         const val VOLUME_PROGRESS_MULTIPLIER = 2
@@ -36,9 +35,6 @@ class VolumeControlFragment: BaseFragment(), VolumeControlNavigator {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
-            viewModel = ViewModelProviders.of(fragmentActivity).get(VolumeControlViewModel::class.java)
-            viewModel.navigator = this
-            viewModel.prefs = sharedViewModel?.prefs ?: Preferences.getInstance(fragmentActivity)
             setClickListeners(fragmentActivity)
         }
     }

@@ -24,8 +24,6 @@ class MainActivity : BaseActivity<MainViewModel>(), MainNavigator {
     override lateinit var viewModel: MainViewModel
     private lateinit var viewPagerAdapter: MainViewPagerAdapter
 
-    //todo refactor base/main view model, dispose in BaseDialog
-
     override fun initializeViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.navigator = this
@@ -34,6 +32,7 @@ class MainActivity : BaseActivity<MainViewModel>(), MainNavigator {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel.initializeCommunicator()
         requestPermissions()
         initializeViewPager()
     }

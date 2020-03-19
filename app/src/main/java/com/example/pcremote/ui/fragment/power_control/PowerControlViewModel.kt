@@ -4,12 +4,10 @@ import android.os.Handler
 import androidx.lifecycle.ViewModel
 import com.example.pcremote.ext.convertMillisToDisplayableTime
 import com.example.pcremote.singleton.Preferences
+import com.example.pcremote.ui.activity.base.BaseViewModel
 
 
-class PowerControlViewModel: ViewModel() {
-    lateinit var navigator: PowerControlNavigator
-    lateinit var prefs: Preferences
-
+class PowerControlViewModel: BaseViewModel<PowerControlNavigator>() {
     private val handler = Handler()
     private var currentRunnable: Runnable? = null
 
