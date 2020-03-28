@@ -11,6 +11,7 @@ import com.example.pcremote.data.enum.ConnectionStatus
 import com.example.pcremote.ext.changeValueIfDifferent
 import com.example.pcremote.singleton.Communicator
 import com.example.pcremote.ui.activity.base.BaseViewModel
+import com.example.pcremote.ui.fragment.connection_status.PingingThread
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 
@@ -20,6 +21,7 @@ class MainViewModel: BaseViewModel<MainNavigator>() {
     private var communicator: Communicator? = null
     private var communicationInProgress = false
     private val handler = android.os.Handler()
+    private var pingingThread: PingingThread? = null
 
     fun initializeCommunicator() {
         compositeDisposable.add(
@@ -110,5 +112,16 @@ class MainViewModel: BaseViewModel<MainNavigator>() {
                 reinitializeCommunicator()
             }
         )
+    }
+
+    fun startPinging() {
+        if (pingingThread == null && connectionStatus.value == ConnectionStatus.CONNECTED) {
+            pingingThread = PingingThread(this).apply { run() }
+        }
+    }
+
+    fun stopPinging() {
+        pingingThread?.stopPinging()
+        pingingThread = null
     }
 }

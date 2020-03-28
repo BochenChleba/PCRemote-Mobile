@@ -16,19 +16,22 @@ private const val PING_TIMEOUT = 100
 
 class WifiScanViewModel: BaseViewModel<WifiScanNavigator>() {
 
+    var shouldPerformScan = true
+
     fun performWifiScan(wifiManager: WifiManager) {
         val subnetAddress = getSubnetAddress(wifiManager.dhcpInfo.gateway)
-        getAvailableHosts(subnetAddress)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ address ->
-                navigator.updateFoundDevicesList(address)
-            }, { ex ->
-                Log.e(WifiScanDialog.TAG, ex.toString())
-            }, {
-                navigator.scanCompleted()
-            })
-            .let { compositeDisposable.add(it) }
+        compositeDisposable.add(
+            getAvailableHosts(subnetAddress)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ address ->
+                    navigator.updateFoundDevicesList(address)
+                }, { ex ->
+                    Log.e(WifiScanDialog.TAG, ex.toString())
+                }, {
+                    navigator.scanCompleted()
+                })
+        )
     }
 
     private fun getSubnetAddress(address: Int) =
@@ -42,6 +45,9 @@ class WifiScanViewModel: BaseViewModel<WifiScanNavigator>() {
     private fun getAvailableHosts(subnetAddress: String): Observable<String> {
         return Observable.create { emitter ->
             for (i in 1..255) {
+                if (!shouldPerformScan) {
+                    break
+                }
                 val hostAddress = "$subnetAddress.$i"
                 try {
                     Socket().use { soc ->
@@ -49,12 +55,11 @@ class WifiScanViewModel: BaseViewModel<WifiScanNavigator>() {
                             InetSocketAddress(hostAddress, NetworkConstants.PORT_NR),
                             PING_TIMEOUT
                         )
+                        soc.close()
                     }
                     emitter.onNext(hostAddress)
-                } catch (ex: Exception) {}
+                } catch (ex: Exception) { }
             }
-            emitter.onNext("192.169.2.224")
-            emitter.onNext("192.169.0.0")
             emitter.onComplete()
         }
     }

@@ -1,6 +1,5 @@
 package com.example.pcremote.ui.dialog.schedlued_shutdown.specified
 
-import androidx.lifecycle.ViewModel
 import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.toIntOrZero
 import com.example.pcremote.ui.activity.base.BaseViewModel

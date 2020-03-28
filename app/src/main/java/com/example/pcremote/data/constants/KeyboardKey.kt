@@ -7,4 +7,5 @@ object KeyboardKey {
     const val KEY_CTRL = "ctrl"
     const val KEY_WINDOWS = "windows"
     const val KEY_ALT = "alt"
+    const val KEY_BACKSPACE = '\b'
 }

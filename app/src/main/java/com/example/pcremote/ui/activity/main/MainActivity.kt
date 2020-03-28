@@ -24,6 +24,9 @@ class MainActivity : BaseActivity<MainViewModel>(), MainNavigator {
     override lateinit var viewModel: MainViewModel
     private lateinit var viewPagerAdapter: MainViewPagerAdapter
 
+    //todo
+    // handle keys: backspace
+
     override fun initializeViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.navigator = this

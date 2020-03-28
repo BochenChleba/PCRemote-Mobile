@@ -24,7 +24,10 @@ abstract class BaseViewModel<T: BaseNavigator>: ViewModel() {
     val mapper = jacksonObjectMapper()
     lateinit var prefs: Preferences
 
-    fun dispose() = compositeDisposable.dispose()
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
+    }
 
     fun initializePreferencesInstance(context: Context) {
         prefs = Preferences.getInstance(context)

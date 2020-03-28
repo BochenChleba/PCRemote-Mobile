@@ -32,8 +32,8 @@ class WifiScanDialog : BaseDialog(), WifiScanNavigator {
     private lateinit var adapter: ArrayAdapter<String>
     private val foundAddresses = mutableListOf<String>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-            = inflater.inflate(R.layout.dialog_scan, container)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? = inflater.inflate(R.layout.dialog_scan, container)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,6 +48,7 @@ class WifiScanDialog : BaseDialog(), WifiScanNavigator {
     private fun initializeViewModel(activity: FragmentActivity) {
         viewModel = ViewModelProviders.of(activity).get(WifiScanViewModel::class.java)
         viewModel.navigator = this
+        viewModel.shouldPerformScan = true
     }
 
     private fun initializeListView(activity: FragmentActivity) {
@@ -85,7 +86,7 @@ class WifiScanDialog : BaseDialog(), WifiScanNavigator {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.dispose()
+        viewModel.shouldPerformScan = false
     }
 
 }

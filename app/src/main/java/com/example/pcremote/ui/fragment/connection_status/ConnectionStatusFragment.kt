@@ -16,12 +16,12 @@ import com.example.pcremote.ui.activity.main.MainViewModel
 import com.example.pcremote.ui.dialog.enter_ip.EnterIpDialog
 import com.example.pcremote.singleton.Preferences
 import com.example.pcremote.ui.dialog.scan.WifiScanDialog
+import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedViewModel
 import com.example.pcremote.ui.fragment.base.BaseFragment
 import kotlinx.android.synthetic.main.fragment_connection_status.*
 
 class ConnectionStatusFragment: BaseFragment() {
     private var expanded = false
-    private var pingingThread: PingingThread? = null
 
     companion object {
         fun newInstance(): ConnectionStatusFragment {
@@ -36,42 +36,38 @@ class ConnectionStatusFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.let { actv ->
-            setOnClicks(actv)
-            ipAddressTv.text = getString(
-                R.string.connection_status_ip_address,
-                Preferences.getInstance(actv).getIpAddress()
-            )
+            setOnClicks()
+            setCurrentlySelectedIpAddress(actv)
         }
         observeConnectionStatus()
     }
 
-    override fun onAttachFragment(childFragment: Fragment) {
-        super.onAttachFragment(childFragment)
-        (childFragment as? EnterIpDialog)?.let { fragment ->
-            fragment.confirmCallback = { saveIpAddressAndConnect(it) }
+    private fun setOnClicks() {
+        rootLayout.setOnClickListener {
+            if (expanded) {
+                collapse()
+            } else {
+                expand()
+            }
         }
-        (childFragment as? WifiScanDialog)?.let { fragment ->
-            fragment.itemSelectedCallback = { saveIpAddressAndConnect(it) }
+        enterIpTv?.setOnClickListener {
+            EnterIpDialog.newInstance()
+                .show(childFragmentManager, EnterIpDialog.TAG)
         }
-    }
-
-    private fun saveIpAddressAndConnect(ipAddress: String) {
-        sharedViewModel?.prefs?.setIpAddress(ipAddress)
-        sharedViewModel?.reinitializeCommunicator()
-        ipAddressTv.text = ipAddress
-    }
-
-    override fun onResume() {
-        super.onResume()
-        sharedViewModel?.let { vm ->
-            pingingThread = PingingThread(vm).apply { run() }
+        wifiScanTv?.setOnClickListener {
+            WifiScanDialog.newInstance()
+                .show(childFragmentManager, WifiScanDialog.TAG)
+        }
+        reconnectTv?.setOnClickListener {
+            sharedViewModel?.reinitializeCommunicator()
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        pingingThread?.stopPinging()
-        pingingThread = null
+    private fun setCurrentlySelectedIpAddress(fragmentActivity: FragmentActivity) {
+        ipAddressTv.text = getString(
+            R.string.connection_status_ip_address,
+            Preferences.getInstance(fragmentActivity).getIpAddress()
+        )
     }
 
     private fun observeConnectionStatus() {
@@ -79,9 +75,9 @@ class ConnectionStatusFragment: BaseFragment() {
             if (context == null) {
                 return@Observer
             }
-
             when (status) {
                 ConnectionStatus.CONNECTED -> {
+                    sharedViewModel?.startPinging()
                     collapse()
                     progressBar.gone()
                     connectionStatusTv.text = getString(R.string.connectionStatusConnected)
@@ -103,28 +99,30 @@ class ConnectionStatusFragment: BaseFragment() {
         })
     }
 
-    private fun setOnClicks(activity: FragmentActivity) {
-        rootLayout.setOnClickListener {
-            if (expanded) {
-                collapse()
-            } else {
-                expand()
-            }
+    override fun onAttachFragment(childFragment: Fragment) {
+        super.onAttachFragment(childFragment)
+        (childFragment as? EnterIpDialog)?.let { fragment ->
+            fragment.confirmCallback = { saveIpAddressAndConnect(it) }
         }
+        (childFragment as? WifiScanDialog)?.let { fragment ->
+            fragment.itemSelectedCallback = { saveIpAddressAndConnect(it) }
+        }
+    }
 
-        enterIpTv?.setOnClickListener {
-            EnterIpDialog.newInstance()
-                .show(childFragmentManager, EnterIpDialog.TAG)
-        }
+    private fun saveIpAddressAndConnect(ipAddress: String) {
+        sharedViewModel?.prefs?.setIpAddress(ipAddress)
+        sharedViewModel?.reinitializeCommunicator()
+        ipAddressTv.text = ipAddress
+    }
 
-        wifiScanTv?.setOnClickListener {
-            WifiScanDialog.newInstance()
-                .show(childFragmentManager, WifiScanDialog.TAG)
-        }
+    override fun onResume() {
+        super.onResume()
+        sharedViewModel?.startPinging()
+    }
 
-        reconnectTv?.setOnClickListener {
-            sharedViewModel?.reinitializeCommunicator()
-        }
+    override fun onPause() {
+        super.onPause()
+        sharedViewModel?.stopPinging()
     }
 
     fun expand() {

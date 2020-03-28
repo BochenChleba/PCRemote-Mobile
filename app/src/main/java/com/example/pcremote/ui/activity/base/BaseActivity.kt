@@ -17,11 +17,6 @@ abstract class BaseActivity<T: BaseViewModel<*>> : AppCompatActivity(), BaseNavi
         viewModel.initializePreferencesInstance(this)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.dispose()
-    }
-
     override fun showToast(text: String) {
         toast(text)
     }

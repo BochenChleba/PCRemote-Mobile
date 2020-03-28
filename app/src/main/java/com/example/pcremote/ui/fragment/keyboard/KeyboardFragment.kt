@@ -1,16 +1,21 @@
 package com.example.pcremote.ui.fragment.keyboard
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.pcremote.R
 import com.example.pcremote.data.constants.KeyboardKey.KEY_ALT
+import com.example.pcremote.data.constants.KeyboardKey.KEY_BACKSPACE
 import com.example.pcremote.data.constants.KeyboardKey.KEY_CTRL
 import com.example.pcremote.data.constants.KeyboardKey.KEY_ESC
 import com.example.pcremote.data.constants.KeyboardKey.KEY_SHIFT
 import com.example.pcremote.data.constants.KeyboardKey.KEY_TAB
 import com.example.pcremote.data.constants.KeyboardKey.KEY_WINDOWS
+import com.example.pcremote.data.constants.MiscConstants
 import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.hideKeyboard
@@ -43,6 +48,7 @@ class KeyboardFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
             setClickListeners()
+            setKeyboardListener()
         }
     }
 
@@ -95,17 +101,40 @@ class KeyboardFragment: BaseFragment() {
         }
     }
 
+    private fun setKeyboardListener() {
+        keyboardRootLayout.setOnKeyListener { _, _, event ->
+            if (event.action == KeyEvent.ACTION_DOWN) {
+                val key = event.unicodeChar.toChar()
+                when (key) {
+                    MiscConstants.UNICODE_BACKSPACE -> {
+                        sharedViewModel?.communicate(
+                            Message(Command.KEYBOARD_SPECIAL_KEY, listOf(KEY_BACKSPACE))
+                        )
+                    }
+                    else -> {
+                        sharedViewModel?.communicate(
+                            Message(Command.KEYBOARD_REGULAR_KEY, listOf(key))
+                        )
+                    }
+                }
+            }
+            false
+        }
+    }
+
+
     private val keyboardVisibilityChangeListener = KeyboardVisibilityEventListener { isVisible ->
         if (isVisible) {
             showOrHideKeyboardButton.apply {
                 text = context.getText(R.string.hide_keyboard_button_text)
                 setOnClickListener { hideKeyboard() }
             }
+            keyboardRootLayout.requestFocus()
         } else {
             showOrHideKeyboardButton.apply {
                 text = context.getText(R.string.show_keyboard_button_text)
                 setOnClickListener {
-                    showKeyboard(hiddenEditText)
+                    showKeyboard(keyboardRootLayout)
                 }
             }
         }
@@ -114,7 +143,7 @@ class KeyboardFragment: BaseFragment() {
     override fun onResume() {
         super.onResume()
         fetchKeysState()
-        showKeyboard(hiddenEditText)
+        showKeyboard(keyboardRootLayout)
     }
 
     private fun fetchKeysState() {
