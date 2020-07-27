@@ -7,17 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.data.enum.ConnectionStatus
 import com.example.pcremote.ext.gone
 import com.example.pcremote.ext.show
-import com.example.pcremote.ui.activity.main.MainViewModel
 import com.example.pcremote.ui.dialog.enter_ip.EnterIpDialog
-import com.example.pcremote.singleton.Preferences
+import com.example.pcremote.persistance.Preferences
 import com.example.pcremote.ui.dialog.scan.WifiScanDialog
-import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedViewModel
-import com.example.pcremote.ui.fragment.base.BaseFragment
+import com.example.pcremote.ui.abstraction.BaseFragment
 import kotlinx.android.synthetic.main.fragment_connection_status.*
 
 class ConnectionStatusFragment: BaseFragment() {

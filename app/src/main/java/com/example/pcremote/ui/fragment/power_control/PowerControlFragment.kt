@@ -12,11 +12,10 @@ import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.gone
 import com.example.pcremote.ext.show
-import com.example.pcremote.ui.fragment.base.BaseFragment
+import com.example.pcremote.ui.abstraction.BaseFragment
 import com.example.pcremote.ui.dialog.restart.RestartDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.ScheduledShutdownDialog
 import com.example.pcremote.ui.dialog.shutdown_now.ShutdownNowDialog
-import com.example.pcremote.singleton.Preferences
 import kotlinx.android.synthetic.main.fragment_power_control.*
 import org.jetbrains.anko.support.v4.toast
 
@@ -44,7 +43,7 @@ class PowerControlFragment: BaseFragment(), PowerControlNavigator {
 
     private fun initializeViewModel(activity: FragmentActivity) {
         viewModel = ViewModelProviders.of(activity).get(PowerControlViewModel::class.java)
-        viewModel.navigator = this
+        viewModel.setNavigator(this)
         viewModel.initializePreferencesInstance(activity)
     }
 

@@ -1,15 +1,14 @@
-package com.example.pcremote.ui.dialog.base
+package com.example.pcremote.ui.abstraction
 
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
-import com.example.pcremote.ui.activity.base.BaseActivity
-import com.example.pcremote.ui.activity.base.BaseNavigator
 import com.example.pcremote.ui.activity.main.MainViewModel
 
-abstract class BaseDialog : DialogFragment(), BaseNavigator {
+abstract class BaseDialog : DialogFragment(),
+    BaseNavigator {
     var sharedViewModel: MainViewModel? = null
 
     override fun onStart() {

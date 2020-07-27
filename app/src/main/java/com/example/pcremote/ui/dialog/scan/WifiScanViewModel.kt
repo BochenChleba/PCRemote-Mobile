@@ -3,10 +3,8 @@ package com.example.pcremote.ui.dialog.scan
 import android.net.wifi.WifiManager
 import android.util.Log
 import com.example.pcremote.data.constants.NetworkConstants
-import com.example.pcremote.ui.activity.base.BaseViewModel
-import io.reactivex.Flowable
+import com.example.pcremote.ui.abstraction.BaseViewModel
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.net.InetSocketAddress
@@ -25,11 +23,11 @@ class WifiScanViewModel: BaseViewModel<WifiScanNavigator>() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ address ->
-                    navigator.updateFoundDevicesList(address)
+                    getNavigator().updateFoundDevicesList(address)
                 }, { ex ->
                     Log.e(WifiScanDialog.TAG, ex.toString())
                 }, {
-                    navigator.scanCompleted()
+                    getNavigator().scanCompleted()
                 })
         )
     }

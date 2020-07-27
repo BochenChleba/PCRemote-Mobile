@@ -11,7 +11,7 @@ import com.example.pcremote.adapter.ShutdownViewPagerAdapter
 import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.hideKeyboard
 import com.example.pcremote.ext.showKeyboard
-import com.example.pcremote.ui.dialog.base.BaseDialog
+import com.example.pcremote.ui.abstraction.BaseDialog
 import com.example.pcremote.ui.dialog.schedlued_shutdown.countdown.ShutdownCountdownFragment
 import com.example.pcremote.ui.dialog.schedlued_shutdown.specified.ShutdownSpecifiedFragment
 import kotlinx.android.synthetic.main.dialog_scheduled_shutdown.*

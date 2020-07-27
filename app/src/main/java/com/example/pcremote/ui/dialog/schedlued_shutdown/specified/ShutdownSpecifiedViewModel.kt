@@ -2,7 +2,7 @@ package com.example.pcremote.ui.dialog.schedlued_shutdown.specified
 
 import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.toIntOrZero
-import com.example.pcremote.ui.activity.base.BaseViewModel
+import com.example.pcremote.ui.abstraction.BaseViewModel
 import java.util.*
 
 class ShutdownSpecifiedViewModel: BaseViewModel<ShutdownSpecifiedNavigator>() {

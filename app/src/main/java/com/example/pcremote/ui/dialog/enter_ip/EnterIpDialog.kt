@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.pcremote.R
 import com.example.pcremote.ext.hideKeyboard
-import com.example.pcremote.ui.dialog.base.BaseDialog
-import com.example.pcremote.singleton.Preferences
+import com.example.pcremote.ui.abstraction.BaseDialog
+import com.example.pcremote.persistance.Preferences
 import kotlinx.android.synthetic.main.dialog_enter_ip.*
 
 class EnterIpDialog : BaseDialog() {

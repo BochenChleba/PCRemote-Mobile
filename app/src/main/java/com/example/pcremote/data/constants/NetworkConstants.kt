@@ -1,8 +1,7 @@
 package com.example.pcremote.data.constants
 
 object NetworkConstants {
-    const val LOG_TAG = "kutacz"
-    const val SERVER_IP = "192.168.0.28"       // cmd -> ipconfig -> IPv4
-    const val PORT_NR = 8081
+    const val LOG_TAG = "PcRemote"
+    const val PORT_NR = 11542
     const val COMMUNICATION_CHARSET = "UTF-8"
 }

@@ -1,10 +1,9 @@
 package com.example.pcremote.ui.fragment.power_control
 
 import android.os.Handler
-import androidx.lifecycle.ViewModel
 import com.example.pcremote.ext.convertMillisToDisplayableTime
-import com.example.pcremote.singleton.Preferences
-import com.example.pcremote.ui.activity.base.BaseViewModel
+import com.example.pcremote.persistance.Preferences
+import com.example.pcremote.ui.abstraction.BaseViewModel
 
 
 class PowerControlViewModel: BaseViewModel<PowerControlNavigator>() {
@@ -14,7 +13,7 @@ class PowerControlViewModel: BaseViewModel<PowerControlNavigator>() {
     fun checkScheduledShutdown() {
         val shutdownTime = prefs.getShutdownTime()
         if (shutdownTime == Preferences.UNSET_LONG) {
-            navigator.hideCountdown()
+            getNavigator().hideCountdown()
             return
         }
         currentRunnable?.let { runnable ->
@@ -26,17 +25,17 @@ class PowerControlViewModel: BaseViewModel<PowerControlNavigator>() {
             override fun run() {
                 val remainedTime = shutdownTime - System.currentTimeMillis()
                 if (remainedTime > 0) {
-                    navigator.displayCountdown(remainedTime.convertMillisToDisplayableTime())
-                    handler.postDelayed(this,1000)
+                    getNavigator().displayCountdown(remainedTime.convertMillisToDisplayableTime())
+                    handler.postDelayed(this, 1000)
                 } else {
                     prefs.clearShutdownTime()
-                    navigator.toastOnShutdown()
-                    navigator.hideCountdown()
+                    getNavigator().toastOnShutdown()
+                    getNavigator().hideCountdown()
                 }
             }
         }.apply { run() }
 
-        navigator.showCountdown()
+        getNavigator().showCountdown()
     }
 
     fun abortShutdown() {
@@ -45,6 +44,6 @@ class PowerControlViewModel: BaseViewModel<PowerControlNavigator>() {
             currentRunnable = null
         }
         prefs.clearShutdownTime()
-        navigator.hideCountdown()
+        getNavigator().hideCountdown()
     }
 }

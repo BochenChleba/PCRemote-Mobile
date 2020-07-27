@@ -13,12 +13,7 @@ fun ByteArray.readResponse(): List<String> {
     val isSuccessful = splittedResponse.firstOrNull()
     val params = splittedResponse.drop(1)
     if (isSuccessful == null || isSuccessful != CommunicatorConstants.FEEDBACK_SUCCEED) {
-        throw UnsuccessfulResponseException(params)
+        throw UnsuccessfulResponseException()
     }
     return params
-} 
-
-fun ByteArray.isAwaitingParamsResponse() = this
-    .copyOfRange(0, CommunicatorConstants.FEEDBACK_AWAITING_PARAMS.length)
-    .toString(Charset.forName(NetworkConstants.COMMUNICATION_CHARSET)) ==
-        CommunicatorConstants.FEEDBACK_AWAITING_PARAMS
+}

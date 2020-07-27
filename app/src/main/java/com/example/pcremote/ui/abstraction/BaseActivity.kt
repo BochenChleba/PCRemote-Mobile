@@ -1,10 +1,11 @@
-package com.example.pcremote.ui.activity.base
+package com.example.pcremote.ui.abstraction
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.toast
 
-abstract class BaseActivity<T: BaseViewModel<*>> : AppCompatActivity(), BaseNavigator {
+abstract class BaseActivity<T: BaseViewModel<*>> : AppCompatActivity(),
+    BaseNavigator {
     // fullscreen touchpad
     // keyboard
 

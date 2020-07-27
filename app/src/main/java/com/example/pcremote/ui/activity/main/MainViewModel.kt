@@ -9,8 +9,8 @@ import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.data.enum.ConnectionStatus
 import com.example.pcremote.ext.changeValueIfDifferent
-import com.example.pcremote.singleton.Communicator
-import com.example.pcremote.ui.activity.base.BaseViewModel
+import com.example.pcremote.tools.Communicator
+import com.example.pcremote.ui.abstraction.BaseViewModel
 import com.example.pcremote.ui.fragment.connection_status.PingingThread
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable

@@ -2,16 +2,11 @@ package com.example.pcremote.ui.activity.main
 
 import android.Manifest
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.adapter.MainViewPagerAdapter
 import com.example.pcremote.data.constants.MiscConstants
-import com.example.pcremote.ext.hideKeyboard
-import com.example.pcremote.ext.showKeyboard
-import com.example.pcremote.ui.activity.base.BaseActivity
-import com.example.pcremote.ui.fragment.keyboard.KeyboardFragment
-import com.google.android.material.tabs.TabLayout
+import com.example.pcremote.ui.abstraction.BaseActivity
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -26,7 +21,7 @@ class MainActivity : BaseActivity<MainViewModel>(), MainNavigator {
 
     override fun initializeViewModel() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        viewModel.navigator = this
+        viewModel.setNavigator(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

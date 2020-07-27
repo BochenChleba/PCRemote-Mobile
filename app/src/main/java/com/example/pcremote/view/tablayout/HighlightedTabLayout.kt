@@ -20,7 +20,7 @@ private const val TAB_PADDING = 20
 private const val DEFAULT_SCALE = 1f
 private const val DEFAULT_ALPHA = 1f
 
-class CustomizableTabLayout : TabLayout {
+class HighlightedTabLayout : TabLayout {
     private lateinit var titles: Array<String>
     private var unselectedTypeFace: Typeface? = null
 

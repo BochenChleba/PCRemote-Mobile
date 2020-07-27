@@ -1,4 +1,4 @@
-package com.example.pcremote.singleton
+package com.example.pcremote.tools
 
 import com.example.pcremote.data.constants.NetworkConstants
 import com.example.pcremote.data.dto.Message
@@ -22,14 +22,15 @@ class Communicator(ipAddress: String) {
 
     companion object {
         const val DATA_BUFF_SIZE = 1024
-        const val SOCKET_TIMEOUT = 2500
+        const val SOCKET_TIMEOUT = 4000
         private var instance: Communicator? = null
 
         @Synchronized
         fun getInstanceAsync(ipAddress: String): Single<Communicator> {
             return Single.fromCallable {
                 if (instance == null) {
-                    instance = Communicator(ipAddress)
+                    instance =
+                        Communicator(ipAddress)
                 }
                 instance!!
             }
@@ -41,7 +42,8 @@ class Communicator(ipAddress: String) {
         fun reinstantiateAsync(ipAddress: String): Single<Communicator> {
             return Single.fromCallable {
                 instance?.socket?.close()
-                instance = Communicator(ipAddress)
+                instance =
+                    Communicator(ipAddress)
                 instance!!
             }
                 .subscribeOn(Schedulers.io())

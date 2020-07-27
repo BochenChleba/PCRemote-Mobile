@@ -1,4 +1,4 @@
-package com.example.pcremote.singleton
+package com.example.pcremote.persistance
 
 import android.content.Context
 
@@ -44,10 +44,11 @@ class Preferences(context: Context) {
         }
     }
 
-    fun getShutdownTime(): Long = sharedPreferences.getLong(
-        KEY_SHUTDOWN_TIME,
-        UNSET_LONG
-    )
+    fun getShutdownTime(): Long =
+        sharedPreferences.getLong(
+            KEY_SHUTDOWN_TIME,
+            UNSET_LONG
+        )
 
     fun setIpAddress(value: String) {
         sharedPreferences.edit().also { editor ->
@@ -56,8 +57,9 @@ class Preferences(context: Context) {
         }
     }
 
-    fun getIpAddress(): String = sharedPreferences.getString(
-        KEY_IP_ADDRESS,
-        UNSET_STRING
-    ) ?: ""
+    fun getIpAddress(): String =
+        sharedPreferences.getString(
+            KEY_IP_ADDRESS,
+            UNSET_STRING
+        ) ?: ""
 }

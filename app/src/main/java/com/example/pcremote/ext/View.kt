@@ -14,5 +14,3 @@ fun View?.hide() {
 fun View?.gone() {
     this?.visibility = View.GONE
 }
-
-fun View.calculateDistanceToEndOfParent() = context.getScreenWidth() - this.x

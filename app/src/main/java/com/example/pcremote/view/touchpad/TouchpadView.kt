@@ -3,10 +3,9 @@ package com.example.pcremote.view.touchpad
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import com.example.pcremote.data.Offset
+import com.example.pcremote.data.dto.Offset
 import kotlin.math.abs
 
 private const val UNSET_FLOAT = -1f
@@ -77,7 +76,12 @@ class TouchpadView(context: Context, attributeSet: AttributeSet)
             yOffset = 0f
         }
         if (xOffset != 0f || yOffset != 0f) {
-            listener?.onTouchpadMove(Offset(xOffset, yOffset))
+            listener?.onTouchpadMove(
+                Offset(
+                    xOffset,
+                    yOffset
+                )
+            )
         }
         prevX = event.x
         prevY = event.y

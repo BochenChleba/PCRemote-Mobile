@@ -1,8 +1,6 @@
 package com.example.pcremote.ui.fragment.keyboard
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,7 @@ import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.hideKeyboard
 import com.example.pcremote.ext.showKeyboard
-import com.example.pcremote.ui.fragment.base.BaseFragment
+import com.example.pcremote.ui.abstraction.BaseFragment
 import com.fasterxml.jackson.module.kotlin.readValue
 import kotlinx.android.synthetic.main.fragment_keyboard.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.data.constants.CommunicatorConstants
 import com.example.pcremote.data.dto.Message
@@ -15,8 +14,7 @@ import com.example.pcremote.data.enum.Command
 import com.example.pcremote.data.enum.ConnectionStatus
 import com.example.pcremote.ext.hide
 import com.example.pcremote.ext.show
-import com.example.pcremote.ui.fragment.base.BaseFragment
-import com.example.pcremote.singleton.Preferences
+import com.example.pcremote.ui.abstraction.BaseFragment
 import kotlinx.android.synthetic.main.fragment_volume_control.*
 
 class VolumeControlFragment: BaseFragment() {

@@ -20,5 +20,4 @@ class ShutdownViewPagerAdapter(fragmentManager: FragmentManager, context: Contex
     override fun getCount() = fragments.size
 
     override fun getPageTitle(position: Int): CharSequence? = fragments[position].second
-
 }

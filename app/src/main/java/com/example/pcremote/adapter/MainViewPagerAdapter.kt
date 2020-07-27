@@ -10,7 +10,7 @@ import com.example.pcremote.ui.fragment.volume.VolumeControlFragment
 class MainViewPagerAdapter(fragmentManager: FragmentManager)
     : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
-    val fragments = listOf(
+    private val fragments = listOf(
         PowerControlFragment.newInstance(),
         VolumeControlFragment.newInstance(),
         TouchpadFragment.newInstance(),

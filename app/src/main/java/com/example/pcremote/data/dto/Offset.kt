@@ -1,4 +1,4 @@
-package com.example.pcremote.data
+package com.example.pcremote.data.dto
 
 data class Offset(
     val xOffset: Float,

@@ -3,7 +3,7 @@ package com.example.pcremote.ui.dialog.shutdown_now
 import com.example.pcremote.R
 import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
-import com.example.pcremote.ui.dialog.base.SimpleDialog
+import com.example.pcremote.ui.abstraction.SimpleDialog
 
 class ShutdownNowDialog : SimpleDialog() {
 

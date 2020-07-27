@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toTopOf="@id/tabLayout"
             />
 
-    <com.example.pcremote.view.tablayout.CustomizableTabLayout
+    <com.example.pcremote.view.tablayout.HighlightedTabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,9 +1,8 @@
 package com.example.pcremote.ui.dialog.schedlued_shutdown.countdown
 
-import androidx.lifecycle.ViewModel
 import com.example.pcremote.data.constants.TimeConstants
 import com.example.pcremote.ext.toIntOrZero
-import com.example.pcremote.ui.activity.base.BaseViewModel
+import com.example.pcremote.ui.abstraction.BaseViewModel
 
 class ShutdownCountdownViewModel: BaseViewModel<ShutdownCountdownNavigator>() {
     fun calculateTimeoutInSeconds(hours: String, minutes: String, seconds: String) =

@@ -1,4 +1,4 @@
-package com.example.pcremote.ui.activity.base
+package com.example.pcremote.ui.abstraction
 
 interface BaseNavigator {
     fun showToast(text: String)

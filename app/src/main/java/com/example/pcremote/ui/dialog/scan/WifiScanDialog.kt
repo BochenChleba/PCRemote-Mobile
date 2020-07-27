@@ -8,14 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.view.get
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.R
 import com.example.pcremote.ext.gone
-import com.example.pcremote.ui.dialog.base.BaseDialog
+import com.example.pcremote.ui.abstraction.BaseDialog
 import kotlinx.android.synthetic.main.dialog_scan.*
-import org.jetbrains.anko.sdk27.coroutines.onItemSelectedListener
 import org.jetbrains.anko.toast
 
 class WifiScanDialog : BaseDialog(), WifiScanNavigator {
@@ -47,7 +45,7 @@ class WifiScanDialog : BaseDialog(), WifiScanNavigator {
 
     private fun initializeViewModel(activity: FragmentActivity) {
         viewModel = ViewModelProviders.of(activity).get(WifiScanViewModel::class.java)
-        viewModel.navigator = this
+        viewModel.setNavigator(this)
         viewModel.shouldPerformScan = true
     }
 

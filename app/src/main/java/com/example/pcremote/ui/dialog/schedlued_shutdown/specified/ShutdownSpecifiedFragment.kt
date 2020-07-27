@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.example.pcremote.data.constants.MiscConstants
 import com.example.pcremote.R
@@ -14,7 +13,7 @@ import com.example.pcremote.data.dto.Message
 import com.example.pcremote.data.enum.Command
 import com.example.pcremote.ext.onActionDone
 import com.example.pcremote.ext.toIntOrZero
-import com.example.pcremote.ui.fragment.base.BaseFragment
+import com.example.pcremote.ui.abstraction.BaseFragment
 import kotlinx.android.synthetic.main.fragment_shutdown_specified.*
 import org.jetbrains.anko.support.v4.toast
 
@@ -38,7 +37,7 @@ class ShutdownSpecifiedFragment: BaseFragment(), ShutdownSpecifiedNavigator {
         super.onViewCreated(view, savedInstanceState)
         activity?.let {fragmentActivity ->
             viewModel = ViewModelProviders.of(fragmentActivity).get(ShutdownSpecifiedViewModel::class.java)
-            viewModel.navigator = this
+            viewModel.setNavigator(this)
             setClickListeners()
             setTextWatchers()
         }
